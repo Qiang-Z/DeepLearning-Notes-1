@@ -76,10 +76,10 @@
 
 :point_right: 关于图像分割（Image segmentation，含语义/实例/场景分割）的学习见：[图像分割专题](./Notes/images-segmentation/README.md)  &&  本文 [1.3 语义/实例/场景分割(Images segmentation)](#13-语义实例场景分割images-segmentation) 节内容~
 
-- 语义/实例/场景分割 paper 以及代码实现见本文：[4.3 Images segmentation](#43-images-segmentation) 节
-- 这里顺带插播下关于**弱监督下的语义分割**的研究和工作：[JackieZhangdx/WeakSupervisedSegmentationList](https://github.com/JackieZhangdx/WeakSupervisedSegmentationList)
+- 语义/实例/场景 `分割paper` 以及 `代码实现` 见本文：[4.3 Images segmentation](#43-images-segmentation) 节
+- 这里顺带插播下关于 `弱监督下的语义分割` 的研究和工作：[JackieZhangdx/WeakSupervisedSegmentationList](https://github.com/JackieZhangdx/WeakSupervisedSegmentationList)
 
-👉 这里记录一些在学习过程的要点梳理和个人理解：[深度学习要点梳理和个人理解](./Notes/keypoints/README.md)  [推荐]
+👉 这里记录一些在学习过程的 `要点梳理和个人理解` 以及 `深度学习问题`：[深度学习要点梳理和个人理解](./Notes/keypoints/README.md)  [推荐]
 
 :point_right: 深度学习之框架学习，传送门：
 
@@ -116,6 +116,7 @@
 - [推荐 | 机器学习经典总结，入门必读【17000字，可下载PDF】](https://mp.weixin.qq.com/s?__biz=MzIxODM4MjA5MA==&mid=2247485716&idx=1&sn=5b182c1c0b6578b1b1f3b75878ec1364&chksm=97ea2371a09daa6713afbe506d2bc40a7b2062be151c58425cefabf6cb3c41de37e9f51fdb0b&mpshare=1&scene=1&srcid=1209sLVUbZIHaCnoa9sLlfZ4#rd)
 - [一图看懂| 人工智能知识体系大全](https://mp.weixin.qq.com/s?__biz=MzU2MDc1MjEyMQ==&mid=2247486182&amp;idx=1&amp;sn=6174593f5862193e98cda311022aeb94&source=41#wechat_redirect)
 - [云计算、大数据和人工智能这么火，究竟是什么关系？](https://mp.weixin.qq.com/s?__biz=MzU2MDc1MjEyMQ==&mid=2247486185&amp;idx=1&amp;sn=0690fac9da75b1ea9f44c4f79df461a9&source=41#wechat_redirect)
+- [漫画：人工智能简史](https://mp.weixin.qq.com/s/0ps-tSx2xV1090NeZNQAFA)
 
 机器学习：
 
@@ -397,11 +398,21 @@
 - [Video]吴恩达深度学习课程：<https://mooc.study.163.com/smartSpec/detail/1001319001.htm>（中英文字幕）
 - [Video]林轩田《机器学习基石》，B 站观看：<https://www.bilibili.com/video/av1624332>
 - [Video]林轩田《机器学习技法》，B 站观看：<https://www.bilibili.com/video/av12469267/>
-- [Video]李宏毅《一天搞懂深度学习》，B 站观看：<https://www.bilibili.com/video/av16543434/>
+- [Video]李宏毅《一天搞懂深度学习》，B 站观看：<https://www.bilibili.com/video/av16543434/>  [荐]
 - [Video]李宏毅_机器学习，B 站观看：<https://www.bilibili.com/video/av10590361/>
 - [Video]李宏毅_深度学习，B 站观看：<https://www.bilibili.com/video/av9770302/>
 - [Video]深度学习计算机视觉课程，李飞飞_斯坦福 CS231n 课程，B 站观看：<https://www.bilibili.com/video/av13260183/>（中文字幕）
 - [Videos]李沐《动手学深度学习》：<https://space.bilibili.com/209599371/channel/detail?cid=23541>，书籍预览版：[《动手学深度学习》](https://zh.d2l.ai/)，代码GitHub地址：[d2l-ai/d2l-zh](https://github.com/d2l-ai/d2l-zh)
+
+最新：
+
+> 台大教授李宏毅的机器学习课程经常被认为是中文开放课程中的首选。李教授的授课风格风趣幽默，通俗易懂，其课程内容中不仅有机器学习、深度学习的基础知识，也会介绍 ML 领域里的各种最新技术。近日，2019 版的课程资料与视频终于上线了。
+>
+> - 课程资料链接：http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML19.html
+> - 课程视频（Bilibili）：https://www.bilibili.com/video/av46561029/
+> - YouTube 链接：https://www.youtube.com/playlist?list=PLJV_el3uVTsOK_ZK5L0Iv_EQoL1JefRL4
+>
+> 李宏毅（Hung-yi Lee）目前任台湾大学电机工程学系和电机资讯学院的助理教授，他曾于 2012 年获得台湾大学博士学位，并于 2013 年赴麻省理工学院（MIT）计算机科学和人工智能实验室（CSAIL）做访问学者。他的研究方向主要是机器学习（深度学习）和语音识别。此前，他的 2016 版《机器学习》课程视频曾是流行学习资料。
 
 ### 6.3 GitHub
 

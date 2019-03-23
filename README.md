@@ -85,8 +85,14 @@
 
 - [tensorflow-learning](https://github.com/strivebo/tensorflow-learning)
 - [pytorch-learning](https://github.com/strivebo/pytorch-learning)
+- [keras学习.md](./Notes/keras学习.md)
 
 :point_right: 关于目标检测（Object Detection）的学习见：[目标检测专题](./Notes/object-detection/README.md)
+
+:point_right: 机器学习/深度学习代码搜索：
+
+- [Papers With Code](https://paperswithcode.com/sota)
+- [zziz/pwc: Papers with code.](https://github.com/zziz/pwc)
 
 ---
 

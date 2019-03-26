@@ -150,7 +150,7 @@
 - [Papers With Code](https://paperswithcode.com/sota)
 - [zziz/pwc: Papers with code.](https://github.com/zziz/pwc)
 
-:point_right: 关于 opecv-python 图像处理：[opencv-python图像处理代码演示.md](./Notes/opencv-python图像处理代码演示.md)
+:point_right: 关于 opecv-python 图像处理：[opencv-python图像处理.md](./Notes/opencv-python图像处理.md)
 
 ---
 

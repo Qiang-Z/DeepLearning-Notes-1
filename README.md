@@ -33,7 +33,7 @@
   >
   > *注：什么是 DOI，请看 [学术干货丨DOI是什么？怎样利用DOI快速检索文献？ – 材料牛](http://www.cailiaoniu.com/37930.html)*
 
-[中国知网](http://www.cnki.net/)  |  [arXiv](https://arxiv.org/)  |  [快搜 - 学术搜索](http://scholar.chongbuluo.com/)  |  [Web of Science [v.5.29] - 所有数据库 基本检索](http://apps.webofknowledge.com/UA_GeneralSearch_input.do?product=UA&search_mode=GeneralSearch&SID=8Ecas5pkrJVAlSzoqGC&preferencesSaved=)  | …
+[中国知网](http://www.cnki.net/)  |  [arXiv](https://arxiv.org/)  |  [快搜 - 学术搜索](http://scholar.chongbuluo.com/)  |  [Web of Science [v.5.29] - 所有数据库 基本检索](http://apps.webofknowledge.com/UA_GeneralSearch_input.do?product=UA&search_mode=GeneralSearch&SID=8Ecas5pkrJVAlSzoqGC&preferencesSaved=)  | [ScienceDirect](<https://www.sciencedirect.com/>)  | …
 
 长长的论文不知道该从哪里读起，阅读论文没有头绪，拿到一个课题不知道该如何入手，如何快速了解一个课题往往是新晋研究生的最希望掌握的技术：[学科领域文献检索调查方法步骤 - 知乎](https://zhuanlan.zhihu.com/p/49882304)
 
@@ -525,10 +525,18 @@
 对期刊和会议的认识：
 
 - [论文收录平台 ( SCI、EI 等 ) 详细说明 | jiyiren](https://jiyiren.github.io/2017/11/18/papersci/)
+
 - [SCI、EI、核心期刊 这些东西等级是怎么区分的？ - 知乎](https://www.zhihu.com/question/31558495)
+
 - [SCI索引、SCI-E索引、SSCI和EI索引的区别，期刊验证查询 | 数据学习（DataLearner）](https://www.datalearner.com/journal_confirm)
-- [计算机学术期刊、会议分类等级 - 小白 - CSDN博客](https://blog.csdn.net/zhouxinxin0202/article/details/79489977)
-- [关于ISI、SCI、EI、IEEE、Elsevier、Springer的理解](https://blog.csdn.net/Neil_Pan/article/details/51848701)
+
+[关于ISI、SCI、EI、IEEE、Elsevier、Springer的理解](https://blog.csdn.net/Neil_Pan/article/details/51848701)（推荐了解下~）
+
+[计算机学术期刊、会议分类等级 - 小白 - CSDN博客](https://blog.csdn.net/zhouxinxin0202/article/details/79489977)
+
+> 据悉，CCF（中国计算机学会）是以 A、B、C 类划分（A 最好）；而中科院是以一、二、三区划分（一最好）
+>
+> 中国计算机学会推荐国际学术会议和期刊目录：<https://www.ccf.org.cn/xspj/gyml/>
 
 更多的了解：[对期刊和会议的认识.md](./journals/对期刊和会议的认识.md)
 

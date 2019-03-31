@@ -74,7 +74,9 @@
 
 👉 计算机视觉牛人博客和代码汇总：[计算机视觉牛人博客和代码汇总（全） - findumars - 博客园](https://www.cnblogs.com/findumars/p/5009003.html)
 
-:point_right: 关于图像分割（Image segmentation，含语义/实例/场景分割）的学习见：[图像分割专题](./Notes/images-segmentation/README.md)  &&  本文 [1.3 语义/实例/场景分割(Images segmentation)](#13-语义实例场景分割images-segmentation) 节内容，含如下内容：
+:point_right: 语义分割相关资料快速索引：[语义分割相关资料总结 - 知乎](<https://zhuanlan.zhihu.com/p/41976717>)​  | …
+
+:point_right: 关于图像分割（Image segmentation，含语义/实例/场景分割）的学习见：[图像分割专题](./Notes/images-segmentation/README.md)  &&  本文 [1.3 语义分割(Semantic Segmentation)](#13-语义分割Semantic-Segmentation) 节内容，含如下内容：
 
 ``` 
 - 什么是超像素、语义分割、实例分割、全景分割？
@@ -227,7 +229,7 @@
 
 更多内容请看我单独写的一个文档：[ResNet(残差网络).md](./papers-reading/经典神经网络模型解读/ResNet(残差网络).md)
 
-### 1.3 语义/实例/场景分割(Images segmentation)
+### 1.3 语义分割(Semantic Segmentation)
 
 #### (1) 图像分割基础
 
@@ -306,19 +308,47 @@
 
 - [浙大博士生刘汉唐：带你回顾图像分割的经典算法](http://www.mooc.ai/course/414/learn#lesson/2266)（需要注册才能观看~）
 - [197期\_张觅\_基于深度卷积网络的遥感影像语义分割层次认知方法](https://www.bilibili.com/video/av24599502?from=search&seid=11210211322309323243)（关于遥感图像语义分割的，但听得不是很清楚~）
+- [【 计算机视觉 】深度学习语义分割Semantic Segmentation（英文字幕）（合辑）_哔哩哔哩](<https://www.bilibili.com/video/av21286423/?p=1>)
+
+
 
 ### 1.4 目标检测(Object Detection)
+
+视频：
+
+- [【中文】Mask R-CNN 深度解读与源码解析 目标检测 物体检测 RCNN object detection 语义分割_哔哩哔哩](<https://www.bilibili.com/video/av24795835/?p=1>)
 
 （待更……）
 
 
+
 ### 1.5 强化学习/增强学习(Reinforce Learning)
 
-#### (1) 基础
+强化学习（Reinforcement Learning）的输入数据作为对模型的反馈，强调如何基于环境而行动，以取得最大化的预期利益。与监督式学习之间的区别在于，它并不需要出现正确的输入/输出对，也不需要精确校正次优化的行为。强化学习更加专注于在线规划，需要在探索（在未知的领域）和遵从（现有知识）之间找到平衡。——from：<https://feisky.xyz/machine-learning/reinforcement.html>
 
-- 雷锋网：[深度学习新星：GAN的基本原理、应用和走向](https://www.leiphone.com/news/201701/Kq6FvnjgbKK8Lh8N.html)
+强化学习是一类算法, 是让计算机实现从一开始什么都不懂, 脑袋里没有一点想法, 通过不断地尝试, 从错误中学习, 最后找到规律, 学会了达到目的的方法. 这就是一个完整的强化学习过程. 实际中的强化学习例子有很多. 比如近期最有名的 Alpha go, 机器头一次在围棋场上战胜人类高手, 让计算机自己学着玩经典游戏 Atari, 这些都是让计算机在不断的尝试中更新自己的行为准则, 从而一步步学会如何下好围棋, 如何操控游戏得到高分。——from：[什么是强化学习 - 知乎](<https://zhuanlan.zhihu.com/p/24807239>)
 
 
+
+### 1.6 生成对抗网络 GAN
+
+GAN：一种概率生成模型。简单说， **概率生成模型的目的，就是找出给定观测数据内部的统计规律，并且能够基于所得到的概率分布模型，产生全新的，与观测数据类似的数据**。
+
+举个例子，概率生成模型可以用于自然图像的生成。假设给定1000万张图片之后，生成模型可以自动学习到其内部分布，能够解释给定的训练图片，并同时生成新的图片。
+
+与庞大的真实数据相比，概率生成模型的参数个数要远远小于数据的数量。因此，在训练过程中，生成模型会被强迫去发现数据背后更为简单的统计规律，从而能够生成这些数据。——from：[深度学习新星：GAN的基本原理、应用和走向 | 硬创公开课 | 雷锋网](https://www.leiphone.com/news/201701/Kq6FvnjgbKK8Lh8N.html)
+
+
+
+### 1.7 迁移学习
+
+迁移学习（Transfer learning）顾名思义就是就是把已学训练好的模型参数迁移到新的模型来帮助新模型训练数据集。——from：https://feisky.xyz/machine-learning/transfer-learning.html
+
+迁移学习(Transfer learning) 顾名思义就是就是把已学训练好的模型参数迁移到新的模型来帮助新模型训练。考虑到大部分数据或任务是存在相关性的，所以通过迁移学习我们可以将已经学到的模型参数（也可理解为模型学到的知识）通过某种方式来分享给新模型从而加快并优化模型的学习效率不用像大多数网络那样从零学习（starting from scratch，tabula rasa）。——from：[刘诗昆的回答 - 知乎](https://www.zhihu.com/question/41979241/answer/123545914)
+
+近年来，我们越来越擅长训练深度神经网络，使其能从大量的有标签的数据中学习非常准确的输入到输出的映射，无论它们是图像、语句还是标签预测。
+
+我们的模型仍旧极度缺乏泛化到不同于训练的环境的能力。什么时候需要这种能力呢？就是你每一次将你的模型用到现实世界，而不是精心构建的数据集的时候。现实世界是混乱的，并且包含大量全新的场景，其中很多是你的模型在训练的时候未曾遇到的，因此这又使得模型不足以做出好的预测。将知识迁移到新环境中的能力通常被称为迁移学习（transfer learning），这就是本文将讨论的内容。——from：[机器之心的回答 - 知乎](https://www.zhihu.com/question/41979241/answer/208177153)
 
 ## 2. Questions
 
@@ -415,6 +445,8 @@
 - SSD
 - Mask R-CNN ：《Mask R-CNN》 [[Paper](https://arxiv.org/abs/1703.06870)]
 
+
+
 一些新的研究：
 
 - [优于Mask R-CNN，港中文&腾讯优图提出PANet实例分割框架](https://www.jiqizhixin.com/articles/2018-03-12-6)
@@ -499,6 +531,8 @@
 - [daily-paper-computer-vision](https://github.com/amusi/daily-paper-computer-vision)
 
   > 记录每天整理的计算机视觉/深度学习/机器学习相关方向的论文。
+
+- [机器学习笔记 - feisky](<https://feisky.xyz/machine-learning/>)
 
 ### 6.4 Blog
 

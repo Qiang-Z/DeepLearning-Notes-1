@@ -208,7 +208,7 @@
 
 ### 1.2 常见模型的讲解及实现
 
-#### (0) Paper讲解
+#### (0) 视频讲解论文
 
 - B 站视频：[深度学习顶级论文算法详解](https://www.bilibili.com/video/av30271782?from=search&seid=9462295319719088186)（含 Faster-RCNN、ResNet 论文讲解）
 
@@ -227,7 +227,14 @@
 
 关于残差连接：[resnet中的残差连接，你确定真的看懂了？](https://zhuanlan.zhihu.com/p/42833949)
 
+一些问题：
+
+- [为什么ResNet和DenseNet可以这么深？一文详解残差块为何有助于解决梯度弥散问题。- 知乎](<https://zhuanlan.zhihu.com/p/28124810>)
+- 。。。
+
 更多内容请看我单独写的一个文档：[ResNet(残差网络).md](./papers-reading/经典神经网络模型解读/ResNet(残差网络).md)
+
+
 
 ### 1.3 语义分割(Semantic Segmentation)
 

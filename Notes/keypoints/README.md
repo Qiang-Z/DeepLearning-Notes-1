@@ -36,7 +36,10 @@
   >
   > 需要好好理解的地方是：带孔卷积并不是卷积核里带孔，而是在卷积的时候，跳着的去卷积 map（比如 dilated＝2 的孔卷积，就是隔一个像素点，“卷”一下，这就相当于把卷积核给放大了（3x3 的核变成 7x7的核，多出位置的 weights 给 0 就是。）这样就使得 3x3 的卷积核也能达到 7x7 卷积核的感受野（因为它在原 map 上，确实 9 个点就跨越覆盖到了传统 conv 的49个像素点），也就扩大了感受野了，使得少一些 pooling 层也没关系。。。
 
-同时推荐看下该文：[对深度可分离卷积、分组卷积、扩张卷积、转置卷积（反卷积）的理解 | eamlife's blog](<https://lonepatient.top/2018/02/27/understand-convolution.html>)
+同时推荐看下下面的文章：
+
+- [对深度可分离卷积、分组卷积、扩张卷积、转置卷积（反卷积）的理解 | eamlife's blog](<https://lonepatient.top/2018/02/27/understand-convolution.html>)
+- [对深度可分离卷积、分组卷积、扩张卷积、转置卷积（反卷积）的理解 - CSDN](<https://blog.csdn.net/Chaolei3/article/details/79374563>)
 
 
 

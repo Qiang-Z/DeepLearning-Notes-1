@@ -76,7 +76,7 @@
 
 :point_right: 语义分割相关资料快速索引：[语义分割相关资料总结 - 知乎](<https://zhuanlan.zhihu.com/p/41976717>)​  | …
 
-:point_right: 关于图像分割（Image segmentation，含语义/实例/场景分割）的学习见：[图像分割专题](./Notes04-cv-图像分割/01-图像分割(含语义实例全景分割).md)  &&  本文 [1.3 语义分割(Semantic Segmentation)](#13-语义分割Semantic-Segmentation) 节内容，含如下内容：
+:point_right: 关于图像分割（Image segmentation，含语义/实例/场景分割）的学习见：[图像分割专题](./Notes/04-cv-图像分割/01-图像分割(含语义实例全景分割).md)  &&  本文 [1.3 语义分割(Semantic Segmentation)](#13-语义分割Semantic-Segmentation) 节内容，含如下内容：
 
 ``` 
 - 什么是超像素、语义分割、实例分割、全景分割？

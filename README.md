@@ -144,7 +144,7 @@
 
 - [tensorflow-learning](https://github.com/strivebo/tensorflow-learning)
 - [pytorch-learning](https://github.com/strivebo/pytorch-learning)
-- [keras学习.md](./Notes/keras学习.md)
+- [keras-learning.md](./Notes/keras学习.md)  | [Keras 中文文档](<https://keras.io/zh/>)
 
 :point_right: 关于目标检测（Object Detection）的学习见：[目标检测专题](./Notes目标检测/README.md)
 
@@ -164,7 +164,8 @@
 - [PaperWeekly - 知乎 - 专栏](https://zhuanlan.zhihu.com/paperweekly)
 - [计算机视觉life - 知乎 - 专栏](https://zhuanlan.zhihu.com/c_150246914)
 - 网站推荐：
-  - [专知 - 专知](http://www.zhuanzhi.ai)
+  - [专知 - 专知](http://www.zhuanzhi.ai)  [荐]
+  - [AI研习社](<https://ai.yanxishe.com/>)  [荐]
   - [PaperWeekly](https://www.paperweekly.site/home)
   - [论文投稿 - 学术交流区 - 小木虫论坛-学术科研互动平台](http://muchong.com/f-125-1)
 

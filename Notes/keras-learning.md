@@ -1,3 +1,5 @@
+## keras 安装和入门
+
 安装 keras：
 
 1. 可以使用 pip 安装
@@ -18,15 +20,26 @@
 import keras
 ```
 
+查看 keras 版本：
+
+``` python
+import keras
+print(keras.__version__)
+```
+
 
 
 先看完该文：[一些基本概念 - Keras中文文档](https://keras-cn.readthedocs.io/en/latest/for_beginners/concepts/)
 
-在看：[Keras TensorFlow教程：如何从零开发一个复杂深度学习模型 - SegmentFault 思否](https://segmentfault.com/a/1190000012645225)
+再看：[Keras TensorFlow教程：如何从零开发一个复杂深度学习模型 - SegmentFault 思否](https://segmentfault.com/a/1190000012645225)
 
 其他阅读：
 
 - [【私人笔记】深度学习框架keras踩坑记](https://mp.weixin.qq.com/s/suBo64ozWDSu-rQv118IVA)  [荐]
+
+
+
+
 
 ---
 
@@ -251,6 +264,136 @@ test_datagen=ImageDataGenerator()
 ```
 
 > *来源：[【Keras】Keras入门指南 - 简书](https://www.jianshu.com/p/e9c1e68a615e)*
+
+
+
+---
+
+
+
+## keras API 学习
+
+### 1. concatenate()函数
+
+keras 中 concatenate 源代码如下：
+
+``` python
+def concatenate(tensors, axis=-1):
+    """Concatenates a list of tensors alongside the specified axis.
+    # Arguments
+        tensors: list of tensors to concatenate.
+        axis: concatenation axis.
+    # Returns
+        A tensor.
+    """
+    if axis < 0:
+        rank = ndim(tensors[0])
+        if rank:
+            axis %= rank
+        else:
+            axis = 0
+ 
+    if py_all([is_sparse(x) for x in tensors]):
+        return tf.sparse_concat(axis, tensors)
+    else:
+        return tf.concat([to_dense(x) for x in tensors], axis)
+```
+
+可以看出 keras 的 concatenate() 函数是披了外壳的 tf.concat()。不过用法没有 tf.concat() 那么复杂。对tf.concat() 解释可以看这篇博文《[tf.concat()详解](https://blog.csdn.net/leviopku/article/details/82380118) 》，如果只想了解 concatenate 的用法，可以不用移步。
+
+axis=n 表示**从第n个维度进行拼接**，对于一个三维矩阵，axis 的取值可以为[-3, -2, -1, 0, 1, 2]。虽然 keras 用模除允许 axis 的取值可以在这个范围之外，但不建议那么用。
+
+可以通过如下小段代码来理解：
+
+``` python
+import numpy as np
+import cv2
+import keras.backend as K
+import tensorflow as tf
+
+t1 = K.variable(np.array([
+    [
+        [1, 2],
+        [2, 3]
+     ], [
+        [4, 4],
+        [5, 3]
+    ]
+]))
+t2 = K.variable(np.array([
+    [
+        [7, 4],
+        [8, 4]
+    ], [
+        [2, 10],
+        [15, 11]
+    ]
+]))
+d0 = K.concatenate([t1, t2], axis=-2)
+d1 = K.concatenate([t1, t2], axis=1)
+d2 = K.concatenate([t1, t2], axis=-1)
+d3 = K.concatenate([t1, t2], axis=2)
+
+init = tf.global_variables_initializer()
+with tf.Session() as sess:
+    sess.run(init)
+    print(sess.run(d0))
+    print(sess.run(d1))
+    print(sess.run(d2))
+    print(sess.run(d3))
+```
+
+axis=-2，意思是从倒数第 2 个维度进行拼接，对于三维矩阵而言，这就等同于 axis=1。
+
+axis=-1，意思是从倒数第 1 个维度进行拼接，对于三维矩阵而言，这就等同于 axis=2。
+
+输出如下：
+
+``` xml
+d0:
+[[[  1.   2.]
+  [  2.   3.]
+  [  7.   4.]
+  [  8.   4.]]
+ 
+ [[  4.   4.]
+  [  5.   3.]
+  [  2.  10.]
+  [ 15.  11.]]]
+ 
+d1:
+[[[  1.   2.]
+  [  2.   3.]
+  [  7.   4.]
+  [  8.   4.]]
+ 
+ [[  4.   4.]
+  [  5.   3.]
+  [  2.  10.]
+  [ 15.  11.]]]
+ 
+d2:
+[[[  1.   2.   7.   4.]
+  [  2.   3.   8.   4.]]
+ 
+ [[  4.   4.   2.  10.]
+  [  5.   3.  15.  11.]]]
+ 
+d3:
+[[[  1.   2.   7.   4.]
+  [  2.   3.   8.   4.]]
+ 
+ [[  4.   4.   2.  10.]
+  [  5.   3.  15.  11.]]]
+```
+
+
+
+### 2. 
+
+
+
+
 
 
 

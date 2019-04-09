@@ -144,7 +144,7 @@
 
 - [tensorflow-learning](https://github.com/strivebo/tensorflow-learning)
 - [pytorch-learning](https://github.com/strivebo/pytorch-learning)
-- [keras-learning.md](./Notes/keras学习.md)  | [Keras 中文文档](<https://keras.io/zh/>)
+- [keras-learning.md](./Notes/keras-learning.md)  | [Keras 中文文档](<https://keras.io/zh/>) | …
 
 :point_right: 关于目标检测（Object Detection）的学习见：[目标检测专题](./Notes目标检测/README.md)
 

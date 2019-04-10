@@ -154,6 +154,16 @@
 - [zziz/pwc: Papers with code.](https://github.com/zziz/pwc)
 - ……
 
+:point_right: 神经网络作图工具：
+
+- Visio（推荐）、PlotNeuralNet、Netron、Netscope、NN SVG、MS PPT、Graphviz、Latex、Inkscape
+
+- [PlotNeuralNet](<https://github.com/HarisIqbal88/PlotNeuralNet>)
+
+  > 使用：[PlotNeuralNet-一款绘制神经网络的好工具](<https://blog.csdn.net/cskywit/article/details/87905172>)
+
+- [有什么神经网络结构图的画图工具值得推荐吗？ - 知乎](<https://www.zhihu.com/question/20542936>)  | [史上最全神经网络结构图画图工具介绍，没有之一！](<https://zhuanlan.zhihu.com/p/31920000>)
+
 ---
 
 人工智能最新学术研究和技术实现追寻，可关注：

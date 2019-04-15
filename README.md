@@ -33,7 +33,7 @@
   >
   > *注：什么是 DOI，请看 [学术干货丨DOI是什么？怎样利用DOI快速检索文献？ – 材料牛](http://www.cailiaoniu.com/37930.html)*
 
-[中国知网](http://www.cnki.net/)  |  [arXiv](https://arxiv.org/)  |  [快搜 - 学术搜索](http://scholar.chongbuluo.com/)  |  [Web of Science [v.5.29] - 所有数据库 基本检索](http://apps.webofknowledge.com/UA_GeneralSearch_input.do?product=UA&search_mode=GeneralSearch&SID=8Ecas5pkrJVAlSzoqGC&preferencesSaved=)  | [ScienceDirect](<https://www.sciencedirect.com/>)  | …
+[中国知网](http://www.cnki.net/)  |  [arXiv](https://arxiv.org/)（或  [Arxiv Sanity](<http://www.arxiv-sanity.com/>)）  |  [快搜 - 学术搜索](http://scholar.chongbuluo.com/)  |  [Web of Science [v.5.29] - 所有数据库 基本检索](http://apps.webofknowledge.com/UA_GeneralSearch_input.do?product=UA&search_mode=GeneralSearch&SID=8Ecas5pkrJVAlSzoqGC&preferencesSaved=)  | [ScienceDirect](<https://www.sciencedirect.com/>)  | …
 
 长长的论文不知道该从哪里读起，阅读论文没有头绪，拿到一个课题不知道该如何入手，如何快速了解一个课题往往是新晋研究生的最希望掌握的技术：[学科领域文献检索调查方法步骤 - 知乎](https://zhuanlan.zhihu.com/p/49882304)
 
@@ -158,11 +158,24 @@
 
 - Visio（推荐）、PlotNeuralNet、Netron、Netscope、NN SVG、MS PPT、Graphviz、Latex、Inkscape
 
+- [那些酷炫的深度学习网络图怎么画出来的？ - 知乎](<https://zhuanlan.zhihu.com/p/60146525>) 
+
+  ``` xml
+  1 NN-SVG
+  2 PlotNeuralNet
+  3 ConvNetDraw
+  4 Draw_Convnet
+  5 Netscope
+  其他
+  ```
+
 - [PlotNeuralNet](<https://github.com/HarisIqbal88/PlotNeuralNet>)
 
   > 使用：[PlotNeuralNet-一款绘制神经网络的好工具](<https://blog.csdn.net/cskywit/article/details/87905172>)
 
 - [有什么神经网络结构图的画图工具值得推荐吗？ - 知乎](<https://www.zhihu.com/question/20542936>)  | [史上最全神经网络结构图画图工具介绍，没有之一！](<https://zhuanlan.zhihu.com/p/31920000>)
+
+  
 
 ---
 
@@ -345,8 +358,6 @@
 
 强化学习是一类算法, 是让计算机实现从一开始什么都不懂, 脑袋里没有一点想法, 通过不断地尝试, 从错误中学习, 最后找到规律, 学会了达到目的的方法. 这就是一个完整的强化学习过程. 实际中的强化学习例子有很多. 比如近期最有名的 Alpha go, 机器头一次在围棋场上战胜人类高手, 让计算机自己学着玩经典游戏 Atari, 这些都是让计算机在不断的尝试中更新自己的行为准则, 从而一步步学会如何下好围棋, 如何操控游戏得到高分。——from：[什么是强化学习 - 知乎](<https://zhuanlan.zhihu.com/p/24807239>)
 
-
-
 ### 1.6 生成对抗网络 GAN
 
 GAN：一种概率生成模型。简单说， **概率生成模型的目的，就是找出给定观测数据内部的统计规律，并且能够基于所得到的概率分布模型，产生全新的，与观测数据类似的数据**。
@@ -354,8 +365,6 @@ GAN：一种概率生成模型。简单说， **概率生成模型的目的，�
 举个例子，概率生成模型可以用于自然图像的生成。假设给定1000万张图片之后，生成模型可以自动学习到其内部分布，能够解释给定的训练图片，并同时生成新的图片。
 
 与庞大的真实数据相比，概率生成模型的参数个数要远远小于数据的数量。因此，在训练过程中，生成模型会被强迫去发现数据背后更为简单的统计规律，从而能够生成这些数据。——from：[深度学习新星：GAN的基本原理、应用和走向 | 硬创公开课 | 雷锋网](https://www.leiphone.com/news/201701/Kq6FvnjgbKK8Lh8N.html)
-
-
 
 ### 1.7 迁移学习
 
@@ -366,6 +375,34 @@ GAN：一种概率生成模型。简单说， **概率生成模型的目的，�
 近年来，我们越来越擅长训练深度神经网络，使其能从大量的有标签的数据中学习非常准确的输入到输出的映射，无论它们是图像、语句还是标签预测。
 
 我们的模型仍旧极度缺乏泛化到不同于训练的环境的能力。什么时候需要这种能力呢？就是你每一次将你的模型用到现实世界，而不是精心构建的数据集的时候。现实世界是混乱的，并且包含大量全新的场景，其中很多是你的模型在训练的时候未曾遇到的，因此这又使得模型不足以做出好的预测。将知识迁移到新环境中的能力通常被称为迁移学习（transfer learning），这就是本文将讨论的内容。——from：[机器之心的回答 - 知乎](https://www.zhihu.com/question/41979241/answer/208177153)
+
+### 1.8 什么是微调 fine tuning 
+
+针对于某个任务，自己的训练数据不多，那怎么办？ 没关系，我们先找到一个同类的别人训练好的模型，把别人现成的训练好了的模型拿过来，换成自己的数据，调整一下参数，再训练一遍，这就是微调（fine-tune）。
+
+**为什么要微调？**
+
+1. 对于数据集本身很小（几千张图片）的情况，从头开始训练具有几千万参数的大型神经网络是不现实的，因为越大的模型对数据量的要求越大，过拟合无法避免。这时候如果还想用上大型神经网络的超强特征提取能力，只能靠微调已经训练好的模型。
+2. 可以降低训练成本：如果使用导出特征向量的方法进行迁移学习，后期的训练成本非常低，用 CPU 都完全无压力，没有深度学习机器也可以做。
+3. 前人花很大精力训练出来的模型在大概率上会比你自己从零开始搭的模型要强悍，没有必要重复造轮子。
+
+**迁移学习 Transfer Learning：**
+
+总是有人把 迁移学习和神经网络的训练联系起来，这两个概念刚开始是无关的。 迁移学习是机器学习的分支，现在之所以 迁移学习和神经网络联系如此紧密，现在图像识别这块发展的太快效果也太好了，所以几乎所有的迁移学习都是图像识别方向的，所以大家看到的迁移学习基本上都是以神经网络相关的计算机视觉为主，本文中也会以这方面来举例子
+
+迁移学习初衷是节省人工标注样本的时间，让模型可以通过一个已有的标记数据的领域向未标记数据领域进行迁移从而训练出适用于该领域的模型，直接对目标域从头开始学习成本太高，我们故而转向运用已有的相关知识来辅助尽快地学习新知识
+
+举一个简单的例子就能很好的说明问题，我们学习编程的时候会学习什么？ 语法、特定语言的API、流程处理、面向对象，设计模式，等等
+
+这里面语法和 API 是每一个语言特有的，但是面向对象和设计模式可是通用的，我们学了JAVA，再去学C#，或者Python，面向对象和设计模式是不用去学的，因为原理都是一样的，甚至在学习C#的时候语法都可以少学很多，这就是迁移学习的概念，把统一的概念抽象出来，只学习不同的内容。
+
+迁移学习按照学习方式可以分为基于样本的迁移，基于特征的迁移，基于模型的迁移，以及基于关系的迁移，这里就不详细介绍了。
+
+两者的关系：
+
+> 其实 "Transfer Learning" 和 "Fine-tune" 并没有严格的区分，含义可以相互交换，只不过后者似乎更常用于形容迁移学习的后期微调中。 我个人的理解，微调应该是迁移学习中的一部分。微调只能说是一个trick。
+
+——from：[zergtant/pytorch-handbook：4.1-fine-tuning.ipynb](<https://github.com/zergtant/pytorch-handbook/blob/master/chapter4/4.1-fine-tuning.ipynb>)
 
 ## 2. Questions
 

@@ -140,11 +140,16 @@
 - ……
 ```
 
+:point_right: 神经网络训练trick：
+
+-  [神经网络训练trick - 知乎](<https://zhuanlan.zhihu.com/p/59918821>)
+
 :point_right: 深度学习之框架学习，传送门：
 
 - [tensorflow-learning](https://github.com/strivebo/tensorflow-learning)
 - [pytorch-learning](https://github.com/strivebo/pytorch-learning)
 - [keras-learning.md](./Notes/keras-learning.md)  | [Keras 中文文档](<https://keras.io/zh/>) | …
+- [深度学习框架对比.md](./Notes/深度学习框架对比.md)
 
 :point_right: 关于目标检测（Object Detection）的学习见：[目标检测专题](./Notes目标检测/README.md)
 
@@ -175,7 +180,28 @@
 
 - [有什么神经网络结构图的画图工具值得推荐吗？ - 知乎](<https://www.zhihu.com/question/20542936>)  | [史上最全神经网络结构图画图工具介绍，没有之一！](<https://zhuanlan.zhihu.com/p/31920000>)
 
-  
+
+:point_right: 遥感图像方面的软件：目前，国内市场上主流的遥感图像处理软件主要是国际上最通用的有 PCI Geomatica、ERDAS 以及 ENVI；而 ArcGI、ENVI 等遥感图像处理软件也可以在遥感集市官网（[传送](<http://www.rscloudmart.com/application>)）上找到，下面，我们具体来看下遥感图像处理软件有哪些？*——from：<http://bbs.tianya.cn/post-itinfo-339183-1.shtml*>
+
+- 一、ERDAS 遥感图像处理软件 
+
+  > ERDAS IMAGINE 系统的开发与软件工程原理构成完整一体化的系统，不是若干部分拼凑的，易于使用、开发、维护，全菜单操作，无论UNIX还是 Windows 平台均一样使用。
+
+- 二、ArcGIS 遥感图像处理软件
+
+  > 它是为 ArcGIS 用户提供的一个使用方便的地理影象分析和处理功能的扩展模块。 LPS（Leica Photogrammetry Suite）――徕卡遥感及摄影测量系统是各种数字化摄影测量工作站所适用的软件系列产品。
+
+- 三、ENVI 遥感图像处理软件  [荐]  | 下载：[ENVI5.3SP1下载安装及破解 - CSDN](<https://blog.csdn.net/m0_37638031/article/details/78822883>)
+
+  > ENVI 包含齐全的遥感影像处理功能，包括数据输入／输出、常规处理、几何校正、大气校正及定标、全色数据分析、多光谱分析、高光谱分析、雷达分析、地形地貌分析、矢量分析、神经网络分析、区域分析、GPS 联接、正射影像图生成、三维景观生成、制图等；这些功能连同丰富的可供二次开发调用的函数库，组成了非常全面的图像处理系统。
+
+  基本入门，视频教程：[ENVI最新最全遥感ENVI入门教程](<https://www.bilibili.com/video/av39771054/>)
+
+- 四、PCI 遥感图像处理软件 
+
+  > PCI GEOMATICA 是 PCI 公司将其旗下的四个主要产品系列，也就是 PCI EASI/PACE、（PCI SPANS，PAMAPS）、ACE、ORTHOENGINE，集成到一个具有同一界面、同一使用规则、同一代码库、同一开发环境的一个新产品系列，该产品系列被称之为 PCI GEOMATICA。
+
+另外有个软件，介绍下：**Google地球**（英语：Google Earth）是一款 Google 公司开发的虚拟地球仪软件， 它把卫星照片、航空照相和 GIS 布置在一个地球的三维模型上，支持多种操作系统平台。（*注：可以使用该软件截取一些卫星图像*）
 
 ---
 
@@ -604,7 +630,8 @@ GAN：一种概率生成模型。简单说， **概率生成模型的目的，�
 
 - [周志华：关于机器学习的一点思考](https://mp.weixin.qq.com/s/sEZM_o5D6AhyMgvocbsFhw)（周老师的观点客观诚恳~）
 - [你知道为什么说深度学习是这时代的炼金术吗？](https://mp.weixin.qq.com/s/y3KqZi68uoWnW_VHV-dtTg)
-- 我的随摘：[关于对人工智能的思考和看法随记.md](./Notes/关于对人工智能的思考和看法随记.md)
+- [贾扬清：我对人工智能方向的一点浅见](https://mp.weixin.qq.com/s/ULrrd68K74CyTxlHUC8rFA)
+- 我的随摘：[摘入一些对人工智能的的看法和思考的随摘.md](./Notes/摘入一些对人工智能的的看法和思考的内容.md)
 
 
 

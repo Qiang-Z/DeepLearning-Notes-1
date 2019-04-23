@@ -1,4 +1,4 @@
-## keras 安装和入门
+# 一、keras 安装和入门
 
 安装 keras：
 
@@ -271,9 +271,9 @@ test_datagen=ImageDataGenerator()
 
 
 
-## keras API 学习
+# 二、keras API 学习
 
-### 1. concatenate()函数
+## 1. concatenate()函数
 
 keras 中 concatenate 源代码如下：
 
@@ -315,7 +315,8 @@ t1 = K.variable(np.array([
     [
         [1, 2],
         [2, 3]
-     ], [
+     ], 
+    [
         [4, 4],
         [5, 3]
     ]
@@ -324,7 +325,8 @@ t2 = K.variable(np.array([
     [
         [7, 4],
         [8, 4]
-    ], [
+    ], 
+    [
         [2, 10],
         [15, 11]
     ]
@@ -387,9 +389,339 @@ d3:
   [  5.   3.  15.  11.]]]
 ```
 
+参考：[keras中的K.concatenate()详解](<https://blog.csdn.net/leviopku/article/details/82380710>)
+
+## 2. 两种训练模型方式fit和fit_generator
+
+Keras深度学习库包括三个独立的函数，可用于训练您自己的模型：
+
+- `.fit`
+- `.fit_generator`
+- `.train_on_batch`
+
+### Keras .fit函数
+
+``` python
+import keras
+from keras.models import Sequential
+from keras.layers import Dense
+import numpy as np
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.model_selection import train_test_split
+
+#读取数据
+x_train = np.load("D:\\machineTest\\testmulPE_win7\\data_sprase.npy")[()]
+y_train = np.load("D:\\machineTest\\testmulPE_win7\\lable_sprase.npy")
+
+# 获取分类类别总数
+classes = len(np.unique(y_train))
+
+#对label进行one-hot编码，必须的
+label_encoder = LabelEncoder()
+integer_encoded = label_encoder.fit_transform(y_train)
+onehot_encoder = OneHotEncoder(sparse=False)
+integer_encoded = integer_encoded.reshape(len(integer_encoded), 1)
+y_train = onehot_encoder.fit_transform(integer_encoded)
+
+#shuffle
+X_train, X_test, y_train, y_test = train_test_split(x_train, y_train, test_size=0.3, random_state=0)
 
 
-### 2. 
+model = Sequential()
+model.add(Dense(units=1000, activation='relu', input_dim=784))
+model.add(Dense(units=classes, activation='softmax'))
+model.compile(loss='categorical_crossentropy',
+              optimizer='sgd',
+              metrics=['accuracy'])
+model.fit(X_train, y_train, epochs=50, batch_size=128)
+score = model.evaluate(X_test, y_test, batch_size=128)
+
+# #fit参数详情
+# keras.models.fit(
+# self,
+# x=None, #训练数据
+# y=None, #训练数据label标签
+# batch_size=None, #每经过多少个sample更新一次权重，defult 32
+# epochs=1, #训练的轮数epochs
+# verbose=1, #0为不在标准输出流输出日志信息，1为输出进度条记录，2为每个epoch输出一行记录
+# callbacks=None,#list，list中的元素为keras.callbacks.Callback对象，在训练过程中会调用list中的回调函数
+# validation_split=0., #浮点数0-1，将训练集中的一部分比例作为验证集，然后下面的验证集validation_data将不会起到作用
+# validation_data=None, #验证集
+# shuffle=True, #布尔值和字符串，如果为布尔值，表示是否在每一次epoch训练前随机打乱输入样本的顺序，如果为"batch"，为处理HDF5数据
+# class_weight=None, #dict,分类问题的时候，有的类别可能需要额外关注，分错的时候给的惩罚会比较大，所以权重会调高，体现在损失函数上面
+# sample_weight=None, #array,和输入样本对等长度,对输入的每个特征+个权值，如果是时序的数据，则采用(samples，sequence_length)的矩阵
+# initial_epoch=0, #如果之前做了训练，则可以从指定的epoch开始训练
+# steps_per_epoch=None, #将一个epoch分为多少个steps，也就是划分一个batch_size多大，比如steps_per_epoch=10，则就是将训练集分为10份，不能和batch_size共同使用
+# validation_steps=None, #当steps_per_epoch被启用的时候才有用，验证集的batch_size
+# **kwargs #用于和后端交互
+# )
+# 
+# 返回的是一个History对象，可以通过History.history来查看训练过程，loss值等等
+```
+
+在这里您可以看到我们提供的训练数据（X_train）和训练标签（y_train）。
+
+然后，我们指示Keras允许我们的模型训练50个epoch，同时batch size为128。
+
+对.fit的调用在这里做出两个主要假设：
+
+- 我们的整个训练集可以放入RAM
+- 没有数据增强（即不需要Keras生成器），相反，我们的网络将在原始数据上训练。
+
+原始数据本身将适合内存，我们无需将旧批量数据从RAM 中移出并将新批量数据移入RAM。
+
+此外，我们不会使用数据增强动态操纵训练数据。
+
+
+
+### Keras fit_generator函数
+
+``` python
+# 第二种,可以节省内存
+'''
+Created on 2018-4-11
+
+fit_generate.txt，后面两列为lable,已经one-hot编码
+1 2 0 1
+2 3 1 0
+1 3 0 1
+1 4 0 1
+2 4 1 0
+2 5 1 0
+
+'''
+import keras
+from keras.models import Sequential
+from keras.layers import Dense
+import numpy as np
+from sklearn.model_selection import train_test_split
+
+count =1    
+def generate_arrays_from_file(path):
+    global count
+    while 1:
+        datas = np.loadtxt(path,delimiter=' ',dtype="int")
+        x = datas[:,:2]
+        y = datas[:,2:]
+        print("count:"+str(count))
+        count = count+1
+        yield (x,y)
+x_valid = np.array([[1,2],[2,3]])
+y_valid = np.array([[0,1],[1,0]])
+model = Sequential()
+model.add(Dense(units=1000, activation='relu', input_dim=2))
+model.add(Dense(units=2, activation='softmax'))
+model.compile(loss='categorical_crossentropy',
+              optimizer='sgd',
+              metrics=['accuracy'])
+
+model.fit_generator(generate_arrays_from_file("D:\\fit_generate.txt"),steps_per_epoch=10, epochs=2,max_queue_size=1,validation_data=(x_valid, y_valid),workers=1)
+# steps_per_epoch 每执行一次steps,就去执行一次生产函数generate_arrays_from_file
+# max_queue_size 从生产函数中出来的数据时可以缓存在queue队列中
+# 输出如下:
+# Epoch 1/2
+# count:1
+# count:2
+# 
+#  1/10 [==>...........................] - ETA: 2s - loss: 0.7145 - acc: 0.3333count:3
+# count:4
+# count:5
+# count:6
+# count:7
+# 
+#  7/10 [====================>.........] - ETA: 0s - loss: 0.7001 - acc: 0.4286count:8
+# count:9
+# count:10
+# count:11
+# 
+# 10/10 [==============================] - 0s 36ms/step - loss: 0.6960 - acc: 0.4500 - val_loss: 0.6794 - val_acc: 0.5000
+# Epoch 2/2
+# 
+#  1/10 [==>...........................] - ETA: 0s - loss: 0.6829 - acc: 0.5000count:12
+# count:13
+# count:14
+# count:15
+# 
+#  5/10 [==============>...............] - ETA: 0s - loss: 0.6800 - acc: 0.5000count:16
+# count:17
+# count:18
+# count:19
+# count:20
+# 
+# 10/10 [==============================] - 0s 11ms/step - loss: 0.6766 - acc: 0.5000 - val_loss: 0.6662 - val_acc: 0.5000
+```
+
+对于小型，简单化的数据集，使用 Keras 的 .fit 函数是完全可以接受的。
+
+这些数据集通常不是很具有挑战性，不需要任何数据增强。
+
+但是，真实世界的数据集很少这么简单：
+
+- 真实世界的数据集通常太大而无法放入内存中
+
+- 它们也往往具有挑战性，要求我们执行数据增强以避免过拟合并增加我们的模型的泛化能力
+
+在这些情况下，我们需要利用 Keras 的`.fit_generator`函数：
+
+``` xml
+# initialize the number of epochs and batch size
+EPOCHS = 100
+BS = 32
+
+# construct the training image generator for data augmentation
+aug = ImageDataGenerator(rotation_range=20, zoom_range=0.15,
+	width_shift_range=0.2, height_shift_range=0.2, shear_range=0.15,
+	horizontal_flip=True, fill_mode="nearest")
+
+# train the network
+H = model.fit_generator(aug.flow(trainX, trainY, batch_size=BS),
+	validation_data=(testX, testY), steps_per_epoch=len(trainX) // BS,
+	epochs=EPOCHS)
+```
+
+我们首先初始化将要训练的网络的epoch和batch size。
+
+然后我们初始化 aug，这是一个Keras ImageDataGenerator对象，用于图像的数据增强，随机平移，旋转，调整大小等。
+
+执行数据增强是正则化的一种形式，使我们的模型能够更好的被泛化。
+
+但是，应用数据增强意味着我们的训练数据不再是“静态的” ——数据不断变化。
+
+根据提供给ImageDataGenerator的参数随机调整每批新数据。
+
+因此，我们现在需要利用Keras的.fit_generator函数来训练我们的模型。
+
+顾名思义，.fit_generator 函数假定存在一个为其生成数据的基础函数。
+
+该函数本身是一个Python生成器。
+
+Keras在使用.fit_generator训练模型时的过程：
+
+- Keras调用提供给.fit_generator的生成器函数（在本例中为aug.flow）
+
+- 生成器函数为.fit_generator函数生成一批大小为BS的数据
+
+- .fit_generator函数接受批量数据，执行反向传播，并更新模型中的权重
+
+- 重复该过程直到达到期望的epoch数量
+
+您会注意到我们现在需要在调用 .fit_generator 时提供 steps_per_epoch 参数（.fit方法没有这样的参数）。
+
+**为什么我们需要steps_per_epoch？** 
+
+请记住，Keras 数据生成器意味着无限循环，它永远不会返回或退出。
+
+由于该函数旨在无限循环，因此 Keras 无法确定一个epoch何时开始的，并且新的epoch何时开始。
+
+因此，我们将**训练数据的总数除以批量大小的结果作为steps_per_epoch的值**。**一旦 Keras 到达这一步，它就会知道这是一个新的epoch。** 怎么理解？来看一个例子：
+
+``` python
+#……
+train_flow=train_pic_gen.flow_from_directory(train_dir,(128,128),batch_size=32,class_mode='binary')
+#……
+model.fit_generator(
+    morph.train_flow,steps_per_epoch=100,epochs=50,verbose=1,validation_data=morph.test_flow,validation_steps=100,
+    callbacks=[TensorBoard(log_dir='./logs/1')]
+)
+#……
+```
+
+- 执行fit_generator时，由train_flow 数据流返回32（train_flow的batch_size的参数）张经过随机变形的样本，作为一个batch训练模型，
+- 重复这一过程100（fit_generator的steps_per_epoch参数）次，一个epoch结束。一个epoch所用样本：batch_size乘以steps_per_epoch。 
+- 当epoch=50（fit_generator的epochs参数）时，模型训练结束。
+
+此外，根据官方文档：
+
+- fit_generator的steps_per_epoch的建议值为样本总量除以train_flow的batch_size。
+
+- fit_generator的steps_per_epoch，如果未指定（None）,则fit_generator的steps_per_epoch等于train_flow的batch_size。——form：[keras：fit_generator的训练过程](<https://blog.csdn.net/nima1994/article/details/80627504>)
+
+参考：
+
+- [keras 两种训练模型方式fit和fit_generator(节省内存)](<https://blog.csdn.net/u011311291/article/details/79900060>)
+- [如何使用Keras fit和fit_generator（动手教程）](<https://blog.csdn.net/learning_tortosie/article/details/85243310>)
+
+## 3. Keras中的BatchNormalization函数
+
+（1）
+
+``` python
+# import BatchNormalization
+from keras.layers.normalization import BatchNormalization
+
+# instantiate model
+model = Sequential()
+
+# we can think of this chunk as the input layer
+model.add(Dense(64, input_dim=14, init='uniform'))
+model.add(BatchNormalization())
+model.add(Activation('tanh'))
+model.add(Dropout(0.5))
+
+# we can think of this chunk as the hidden layer    
+model.add(Dense(64, init='uniform'))
+model.add(BatchNormalization())
+model.add(Activation('tanh'))
+model.add(Dropout(0.5))
+
+...
+```
+
+显然，批量标准化在激活功能之后在实践中更好地工作 - Claudiu
+
+嗨@Claudiu，你介意扩大这个FYI吗？它似乎与上面的答案直接相矛盾。 - Ben Ogorek
+
+@benogorek：当然，基本上我完全基于结果 这里 在relu表现更好之后放置批量规范的地方。 FWIW我没有成功地在我试过的一个网上以这种方式应用它 - Claudiu
+
+有趣。为了跟进，如果你继续阅读该摘要，它说他们最好的模型[GoogLeNet128_BN_lim0606]实际上在ReLU之前有BN层。因此，虽然激活后的BN可以提高孤立情况下的准确性，但是在构建整个模型时，在执行最佳之前。可能在激活后放置BN可能会提高准确性，但可能依赖于问题。 - Lucas Ramadan
+
+哇，那个基准真的很有趣。对于那里到底发生了什么，有没有人有任何直觉？为什么偏移和扩展激活会更好 后 非线性？是因为测试对象和游戏必须处理较少的变化或类似的东西，因此当训练数据不充足时，模型会更好地概括吗？ - Carl Thomé
+
+（2）
+
+现在几乎成了一个趋势 `Conv2D` 接下来是 `ReLu` 接下来是 `BatchNormalization` 层。所以我编写了一个小函数来立即调用所有这些函数。使模型定义看起来更清晰，更易于阅读。
+
+```python
+def Conv2DReluBatchNorm(n_filter, w_filter, h_filter, inputs):
+    return BatchNormalization()(Activation(activation='relu')(Convolution2D(n_filter, w_filter, h_filter, border_mode='same')(inputs)))
+```
+
+关于是否应该在当前层的非线性或前一层的激活之前应用BN，该线程存在一些争论。
+
+虽然没有正确的答案，批量标准化的作者说 **它应该在当前层的非线性之前立即应用。**原因（引自原始论文） -
+
+“我们在此之前立即添加BN变换 非线性，通过归一化x = Wu + b。我们可以有 也标准化了层输入u，但因为你很可能 另一个非线性的输出，其分布的形状 在训练和约束期间可能会发生变化 它的第一和第二时刻不会消除协变量 转移。相比之下，吴+ b更有可能拥有 对称的非稀疏分布，即“更高斯” （Hyv¨arinen＆Oja，2000）;正常化它很可能 产生稳定分布的激活。
+
+（3）
+
+Keras现在支持 `use_bias=False` 选项，所以我们可以通过编写来节省一些计算
+
+```
+model.add(Dense(64, use_bias=False))
+model.add(BatchNormalization(axis=bn_axis))
+model.add(Activation('tanh'))
+```
+
+要么
+
+```
+model.add(Convolution2D(64, 3, 3, use_bias=False))
+model.add(BatchNormalization(axis=bn_axis))
+model.add(Activation('relu'))
+```
+
+（4）
+
+它是另一种类型的图层，因此您应该将其作为图层添加到模型的适当位置。
+
+```
+model.add(keras.layers.normalization.BatchNormalization())
+```
+
+在这里查看示例： <https://github.com/fchollet/keras/blob/master/examples/kaggle_otto_nn.py>
+
+参考：[我在哪里调用Keras中的BatchNormalization函数？](<http://landcareweb.com/questions/3901/wo-zai-na-li-diao-yong-keraszhong-de-batchnormalizationhan-shu>)
 
 
 
@@ -397,7 +729,7 @@ d3:
 
 
 
-## keras 的坑
+# 三、keras 的坑
 
 Keras 是一个用 Python 编写的高级神经网络 API，它能够以 TensorFlow, CNTK, 或者 Theano 作为后端运行。Keras 的开发重点是支持快速的实验。能够以最小的时间把你的想法转换为实验结果，是做好研究的关键。本人是keras的忠实粉丝，可能是因为它实在是太简单易用了，不用多少代码就可以将自己的想法完全实现，但是在使用的过程中还是遇到了不少坑，本文做了一个归纳，供大家参考。
 

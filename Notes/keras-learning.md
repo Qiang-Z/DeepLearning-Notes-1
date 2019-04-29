@@ -922,6 +922,118 @@ keras.layers.convolutional.Conv2D(filters, kernel_size, strides=(1, 1), padding=
 
 参考：[keras中实现简单的反卷积](<https://blog.csdn.net/huangshaoyin/article/details/81004301>)
 
+**在 tensorflow 中： **
+
+tensorflow 里面用于改变图像大小的函数是 `tf.image.resize_images(image, （w, h）, method)`：image 表示需要改变此存的图像，第二个参数改变之后图像的大小，method 用于表示改变图像过程用的差值方法。
+
+0：双线性差值。1：最近邻居法。2：双三次插值法。3：面积插值法。
+
+例如：
+
+``` python
+import matplotlib.pyplot as plt;
+import tensorflow as tf;
+ 
+image_raw_data_jpg = tf.gfile.FastGFile('11.jpg', 'r').read()
+ 
+with tf.Session() as sess:
+	img_data_jpg = tf.image.decode_jpeg(image_raw_data_jpg)
+	img_data_jpg = tf.image.convert_image_dtype(img_data_jpg, dtype=tf.float32)
+	resize_0 = tf.image.resize_images(img_data_jpg, (500, 500), method=0)
+	resize_1 = tf.image.resize_images(img_data_jpg, (500, 500), method=1)
+	resize_2 = tf.image.resize_images(img_data_jpg, (500, 500), method=2)
+	resize_3 = tf.image.resize_images(img_data_jpg, (500, 500), method=3)
+	
+	print resize_0.get_shape
+ 
+	plt.figure(0)
+	plt.imshow(resize_0.eval())
+	plt.figure(1)
+	plt.imshow(resize_1.eval())
+	plt.figure(2)
+	plt.imshow(resize_2.eval())
+	plt.figure(3)
+	plt.imshow(resize_3.eval())
+ 
+	plt.show()
+```
+
+参考：[tensorflow里面用于改变图像大小的函数](<https://blog.csdn.net/UESTC_C2_403/article/details/72699260>)
+
+## 6. SGD 随机梯度下降优化器参数设置
+
+Keras 中包含了各式优化器供我们使用，但通常我会倾向于使用 SGD 验证模型能否快速收敛，然后调整不同的学习速率看看模型最后的性能，然后再尝试使用其他优化器。Keras 中文文档中对 SGD 的描述如下：
+
+`keras.optimizers.SGD(lr=0.01, momentum=0.0, decay=0.0, nesterov=False)`：随机梯度下降法，支持动量参数，支持学习衰减率，支持Nesterov动量
+
+参数：
+
+- lr：大或等于0的浮点数，学习率
+- momentum：大或等于0的浮点数，动量参数
+- decay：大或等于0的浮点数，每次更新后的学习率衰减值
+- nesterov：布尔值，确定是否使用Nesterov动量
+
+### Time-Based Learning Rate Schedule
+
+Keras 已经内置了一个基于时间的学习速率调整表，并通过上述参数中的 `decay` 来实现，学习速率的调整公式如下：
+
+``` python
+LearningRate = LearningRate * 1/(1 + decay * epoch)
+```
+
+当我们初始化参数为：
+
+``` python
+LearningRate = 0.1
+decay = 0.001
+```
+
+大致变化曲线如下（非实际曲线，仅示意）：
+
+![](https://img-1256179949.cos.ap-shanghai.myqcloud.com/20190429174447.png)
+
+当然，方便起见，我们可以将优化器设置如下，使其学习速率随着训练轮次变化：
+
+``` python
+sgd = SGD(lr=learning_rate, decay=learning_rate/nb_epoch, momentum=0.9, nesterov=True)
+```
+
+### Drop-Based Learning Rate Schedule
+
+另外一种学习速率的调整方法思路是保持一个恒定学习速率一段时间后立即降低，是一种突变的方式。通常整个变化趋势为指数形式。
+
+![](https://img-1256179949.cos.ap-shanghai.myqcloud.com/20190429174516.png)
+
+对应的学习速率变化公式如下：
+
+``` python
+LearningRate = InitialLearningRate * DropRate^floor(Epoch / EpochDrop)
+```
+
+实现需要使用 Keras 中的 `LearningRateScheduler` 模块：
+
+``` python
+from keras.callbacks import LearningRateScheduler
+# learning rate schedule
+def step_decay(epoch):
+	initial_lrate = 0.1
+	drop = 0.5
+	epochs_drop = 10.0
+	lrate = initial_lrate * math.pow(drop, math.floor((1+epoch)/epochs_drop))
+	return lrate
+
+lrate = LearningRateScheduler(step_decay)
+
+# Compile model
+sgd = SGD(lr=0.0, momentum=0.9, decay=0.0, nesterov=False)
+model.compile(loss=..., optimizer=sgd, metrics=['accuracy'])
+
+# Fit the model
+model.fit(X, Y, ..., callbacks=[lrate])
+```
+
+参考：<https://blog.csdn.net/u012862372/article/details/80319166>
+
 
 
 # 三、keras中的loss、optimizer、metrics
@@ -1208,6 +1320,8 @@ print(len(model.layers))  # "1"
 ```
 
 ——from：[深度学习框架keras踩坑记](https://mp.weixin.qq.com/s/suBo64ozWDSu-rQv118IVA)
+
+
 
 
 

@@ -17,6 +17,14 @@
 
 ---
 
+如何免费运行 Python 深度学习程序 & 撸羊毛：
+
+1. 谷歌的 Colaboratory
+   - [如何在免费云端运行 Python 深度学习框架？-红色石头的个人博客](http://redstonewill.com/1493/?tdsourcetag=s_pcqq_aiomsg)
+   - [Colab笔记本能用英伟达Tesla T4了，谷歌的羊毛薅到酸爽 - 知乎](<https://zhuanlan.zhihu.com/p/63712343>)
+2. 亚马逊：[利用AWS学习深度学习 For Udacity P5（第二篇：AWS 注册）](https://zhuanlan.zhihu.com/p/33202215)
+3. （待补充……
+
 :stars: 如何找论文：[如何找论文 - 知乎](https://zhuanlan.zhihu.com/p/27484748)
 
 - [Google 学术搜索](https://scholar.google.com.hk/?hl=zh-CN)
@@ -432,7 +440,7 @@ GAN：一种概率生成模型。简单说， **概率生成模型的目的，�
 
 ## 2. Questions
 
-（1）如何免费云端运行 Python 深度学习框架：[如何在免费云端运行 Python 深度学习框架？-红色石头的个人博客](http://redstonewill.com/1493/?tdsourcetag=s_pcqq_aiomsg)
+（1）如何免费云端运行 Python 深度学习框架：
 
 （2）什么学习中网络不收敛指的是什么？——①误差一直来回波动，进入不到容忍度内。②跟迭代不收敛或者系统不稳定差不多，上下波动不能趋近一个定值。
 

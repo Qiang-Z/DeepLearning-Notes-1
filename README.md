@@ -123,7 +123,7 @@
 
 插播：
 
-- 语义/实例/场景 `分割paper` 和解读，以及 `代码实现` 见：[4.3 Images segmentation](#43-images-segmentation)  |  [卷积神经网络及图像分割论文解读](./Papers/01-卷积神经网络及图像分割论文解读.md)
+- 语义/实例/场景 `分割paper` 和解读，以及 `代码实现` 见：[4.3 Images segmentation](#43-images-segmentation)  |  [卷积神经网络以及图像分割论文整理和解读](./Papers/01-卷积神经网络以及图像分割论文整理和解读.md)
 - 这里顺带插播下关于 `弱监督下的语义分割` 的研究和工作：[JackieZhangdx/WeakSupervisedSegmentationList](https://github.com/JackieZhangdx/WeakSupervisedSegmentationList)
 
 👉 这里记录一些在学习过程的 `要点梳理和个人理解` 以及 `深度学习问题`：[深度学习要点梳理和个人理解](./Notes/03-深度学习/01-深度学习要点梳理和个人理解.md)  [荐]，包含如下内容：
@@ -148,7 +148,7 @@
 
 - [tensorflow-learning](https://github.com/strivebo/tensorflow-learning)
 - [pytorch-learning](https://github.com/strivebo/pytorch-learning)
-- [keras-learning.md](./Notes/keras-learning.md)  | [Keras 中文文档](<https://keras.io/zh/>) | …
+- [keras-learning.md](./Notes/keras-learning.md)  | [Keras 中文文档](<https://keras.io/zh/>)  |  [使用Keras、Python、Theano和TensorFlow开发深度学习模型](<https://cnbeining.github.io/deep-learning-with-python-cn/Preface.html>) | …
 - [深度学习框架对比.md](./Notes/深度学习框架对比.md)
 
 :point_right: 关于目标检测（Object Detection）的学习见：[目标检测专题](./Notes目标检测/README.md)

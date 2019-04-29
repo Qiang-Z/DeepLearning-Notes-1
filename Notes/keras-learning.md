@@ -723,13 +723,307 @@ model.add(keras.layers.normalization.BatchNormalization())
 
 参考：[我在哪里调用Keras中的BatchNormalization函数？](<http://landcareweb.com/questions/3901/wo-zai-na-li-diao-yong-keraszhong-de-batchnormalizationhan-shu>)
 
+## 4. UpSampling2D与Conv2DTranspose、以及反卷积
+
+（1）
+
+UpSampling2D可以看作是 Pooling 的反向操作，就是采用Nearest Neighbor interpolation来进行放大，说白了就是复制行和列的数据来扩充 feature map 的大小。反向梯度传播的时候，应该就是每个单元格的梯度的和（猜测）。
+
+Conv2DTranspose 就是正常卷积的反向操作，无需多讲。——from：https://www.zhihu.com/question/290376931/answer/471494441
+
+（2）
+
+UpSampling2D：
+
+``` python
+#coding:utf-8
+import numpy as np
+####keras 采用最邻近插值算法进行upsampling
+def UpSampling2D(input_array,strides=(2,2)):
+    h,w,n_channels = input_array.shape
+    new_h,new_w = h*strides[0],w*strides[1]
+    output_array=np.zeros((new_h,new_w,n_channels),dtype='float32')
+    for i in range(new_h):
+        for j in range(new_w):
+            y=int(i/float(strides[0]))
+            x=int(j/float(strides[1]))
+            output_array[i,j,:]=input_array[y,x,:]
+    return output_array
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"   # see issue #152
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
+import numpy as np
+from Convolution1 import Convolution2D
+# if padding == 'valid':
+#     dim_size = dim_size * stride_size + max(kernel_size - stride_size, 0)
+# elif padding == 'full':
+#     dim_size = dim_size * stride_size - (stride_size + kernel_size - 2)
+# elif padding == 'same':
+#     dim_size = dim_size * stride_size
+###(stride-1)*(img.shape-1)+img.shape
+
+input_data=[ [[1,0,1,1],
+              [0,2,1,1],
+              [1,1,0,1],
+              [1, 1, 0, 1]],
+             [[2,0,2,1],
+              [0,1,0,1],
+              [1,0,0,1],
+              [1, 1, 0, 1]],
+             [[1,1,1,1],
+              [2,2,0,1],
+              [1,1,1,1],
+              [1, 1, 0, 1]],
+             [[1,1,2,1],
+              [1,0,1,1],
+              [0,2,2,1],
+              [1, 1, 0, 1]]]
+weights_data=[ [[[ 1, 0, 1],
+                 [-1, 1, 0],
+                 [ 0,-1, 0]],
+                [[-1, 0, 1],
+                 [ 0, 0, 1],
+                 [ 1, 1, 1]],
+                [[ 0, 1, 1],
+                 [ 2, 0, 1],
+                 [ 1, 2, 1]
+                 ],
+                [[ 1, 1, 1],
+                 [ 0, 2, 1],
+                 [ 1, 0, 1]
+                 ]],
+               [[[ 1, 0, 2],
+                 [-2, 1, 1],
+                 [ 1,-1, 0]
+                 ],
+                [[-1, 0, 1],
+                 [-1, 2, 1],
+                 [ 1, 1, 1]
+                 ],
+                [[ 0, 0, 0],
+                 [ 2, 2, 1],
+                 [ 1,-1, 1]
+                 ],
+                [[ 2, 1, 1],
+                 [ 0,-1, 1],
+                 [ 1, 1, 1]
+                 ]] ]
+
+a = np.asarray(input_data)
+b = np.asarray(weights_data)
+print('input_data',a.shape)
+print('weight_data',b.shape)
+def ConvTranspose2D(input_array,kernels,strides = (2,2),padding = 'same'):
+    s_h,s_w = strides
+    h,w,n = input_array.shape
+    filters_num,k_h,k_w,n_channels = kernels.shape
+    new_h,new_w = (s_h-1)*(h+1)+h,(s_w-1)*(w+1)+w
+    tmp_array = np.zeros(shape=(new_h,new_w,n))
+    y_range = range(s_h-1,new_h,s_h)
+    x_range = range(s_w-1,new_w,s_w)
+    for j in y_range:
+        for i in x_range:
+            tmp_array[j,i,:] = input_array[j//s_h,i//s_w,:]
+    if padding == 'same':
+        padding_h = new_h-1+k_h-new_h
+        padding_w = new_w-1+k_w-new_w
+        top_padding = padding_h // 2
+        bottom_padding = padding_h - top_padding
+        left_padding = padding_w // 2
+        right_padding = padding_w - left_padding
+        # print(origin_matrix.shape)
+        tmp_array = np.pad(tmp_array, ((top_padding, bottom_padding), (left_padding, right_padding), (0, 0)),
+                      mode='constant', constant_values=((0, 0), (0, 0), (0, 0)))
+        print(tmp_array.shape)
+        result = Convolution2D(tmp_array,kernels,kernel_b=None,stride=(1,1),padding= 'valid')
+        print(result.shape)
+        print(result[:h*2,:w*2,0])
+```
+
+Conv2DTranspose：
+
+``` python
+import tensorflow as tf
+
+def tf_conv2d_transpose(input,weights):
+    #input_shape=[n,height,width,channel]
+    input_shape = input.get_shape().as_list()
+    #weights shape=[height,width,out_c,in_c]
+    weights_shape=weights.get_shape().as_list()
+    output_shape=[input_shape[0], input_shape[1]*2 , input_shape[2]*2 , weights_shape[2]]
+    print("output_shape:",output_shape)
+    deconv=tf.nn.conv2d_transpose(input,weights,output_shape=output_shape, strides=[1, 2, 2, 1], padding='SAME')
+    return deconv
+def main(input_data,weights_data):
+    weights_np=np.asarray(weights_data,np.float32) #将输入的每个卷积核旋转180°
+    weights_np=np.rot90(weights_np,2,(2,3))
+    const_input = tf.constant(input_data , tf.float32)
+    const_weights = tf.constant(weights_np , tf.float32 )
+    input = tf.Variable(const_input,name="input") #[c,h,w]------>[h,w,c]
+    input=tf.transpose(input,perm=(1,2,0)) #[h,w,c]------>[n,h,w,c]
+    input=tf.expand_dims(input,0) #weights shape=[out_c,in_c,h,w]
+    weights = tf.Variable(const_weights,name="weights") #[out_c,in_c,h,w]------>[h,w,out_c,in_c]
+    weights=tf.transpose(weights,perm=(2,3,0,1)) #执行tensorflow的反卷积
+    deconv=tf_conv2d_transpose(input,weights)
+    init=tf.global_variables_initializer()
+    sess=tf.Session()
+    sess.run(init)
+    deconv_val = sess.run(deconv)
+    hwc=deconv_val
+    hwc = np.squeeze(hwc,0)
+    print(hwc[:,:,0])
+
+
+if __name__ == '__main__':
+
+    input_data1 = np.asarray(input_data,dtype='float32').transpose((1,2,0))
+    weights_data1 = np.asarray(weights_data,dtype='float32').transpose((0,2,3,1))
+    input_data = np.asarray(input_data, dtype='float32')
+    weights_data = np.asarray(weights_data, dtype='float32')
+    #print(input_data.shape)
+    #print(weights_data.shape)
+
+    ConvTranspose2D(input_data1,weights_data1)
+    main(input_data,weights_data)
+```
+
+参考：[UpSampling2D、Conv2DTranspose - zh_JNU的博客 - CSDN博客](<https://blog.csdn.net/zh_JNU/article/details/80986786>)
+
+## 5. keras 中实现简单的反卷积
+
+我这里将反卷积分为两个操作，一个是 UpSampling2D()，**用上采样将原始图片扩大**，然后**用 Conv2D() 这个函数进行卷积操作**，**就可以完成简单的反卷积。** 
+
+。。。
+
+这是核心代码，也就是 UpSampling2D() 函数就是一个 K.resize_imagse 操作，我这里 backend 用的是tensorflow，关于这个函数的解释在这里[点击打开链接](https://tensorflow.google.cn/api_docs/python/tf/image/resize_images)
+
+``` python
+tf.image.resize_images(
+    images,
+    size,
+    method=ResizeMethod.BILINEAR,
+    align_corners=False
+)
+```
+
+method can be one of:
+
+- ResizeMethod.BILINEAR: Bilinear interpolation.
+- ResizeMethod.NEAREST_NEIGHBOR: Nearest neighbor interpolation.
+- ResizeMethod.BICUBIC: Bicubic interpolation.
+- ResizeMethod.AREA: Area interpolation.
+
+UpSampling2D(size=(2,2)) 就可以将图片扩大1倍，比如原来为28x28的图片，就会变为56x56,
+
+接下来就可以进行卷积操作：
+
+``` python
+keras.layers.convolutional.Conv2D(filters, kernel_size, strides=(1, 1), padding='valid', data_format=None, dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None)
+```
+
+参考：[keras中实现简单的反卷积](<https://blog.csdn.net/huangshaoyin/article/details/81004301>)
+
+
+
+# 三、keras中的loss、optimizer、metrics
+
+用 keras 搭好模型架构之后的下一步，就是执行编译操作。在编译时，经常需要指定三个参数：
+
+- loss
+- optimizer
+- metrics
+
+这三个参数有两类选择：
+
+- 使用字符串
+- 使用标识符，如 keras.losses，keras.optimizers，metrics 包下面的函数
+
+例如：
+
+``` python
+sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+model.compile(loss='categorical_crossentropy',
+              optimizer=sgd,
+              metrics=['accuracy'])
+```
+
+因为有时可以使用字符串，有时可以使用标识符，令人很想知道背后是如何操作的。下面分别针对 optimizer，loss，metrics 三种对象的获取进行研究。
+
+**optimizer：**
+
+一个模型只能有一个optimizer，在执行编译的时候只能指定一个optimizer。
+在keras.optimizers.py中，有一个get函数，用于根据用户传进来的optimizer参数获取优化器的实例。
+
+**loss：**
+
+keras.losses函数也有一个get(identifier)方法。其中需要注意以下一点：
+
+如果 identifier 是可调用的一个函数名，也就是一个自定义的损失函数，这个损失函数返回值是一个张量。这样就轻而易举的实现了自定义损失函数。除了使用 str 和 dict 类型的 identifier，我们也可以直接使用 keras.losses 包下面的损失函数。
+
+**metrics：**
+
+在 model.compile() 函数中，optimizer 和 loss 都是单数形式，只有 metrics 是复数形式。因为一个模型只能指明一个optimizer和loss，却可以指明多个metrics。metrics也是三者中处理逻辑最为复杂的一个。
+
+在 keras 最核心的地方 `keras.engine.train.py` 中有如下处理 metrics 的函数。这个函数其实就做了两件事：
+
+- 根据输入的 metric 找到具体的 metric 对应的函数
+- 计算 metric 张量
+
+在寻找 metric 对应函数时，有两种步骤：
+
+- 使用字符串形式指明准确率和交叉熵
+- 使用 `keras.metrics.py` 中的函数
+
+参考：
+
+- [keras中的loss、optimizer、metrics - weiyinfu - 博客园](<https://www.cnblogs.com/weiyinfu/p/9783776.html>)
+
+
+
+# 四、keras自定义loss、评估函数
+
+
+
+
+
+
+
+# 五、Keras在训练过程中如何计算accuracy？
+
+（1）
+
+accuracy就是仅仅是计算而不参与到优化过程，keras metric 就是每跑一个 epoch 就会打印给你结果。
+
+自定义 acc 的写法：
+
+``` python
+import keras.backend as K
+
+def mean_pred(y_true, y_pred):
+    return K.mean(y_pred)
+
+model.compile(optimizer='rmsprop',
+              loss='binary_crossentropy',
+              metrics=['accuracy', mean_pred])
+
+出自官方文件：
+Metrics - Keras Documentation
+```
+
+（2）
+
+metric 的作用本来就只是评价，不参与训练。如果你想要把这个东西添加到训练里面，可以重新设计 loss 函数，由原先的对比损失加上你的新东西。
+
+参考：
+
+- [Keras在训练过程中如何计算accuracy？ - 知乎](<https://www.zhihu.com/question/303791916>)
+
 
 
 ---
 
 
 
-# 三、keras 的坑
+# keras 的坑
 
 Keras 是一个用 Python 编写的高级神经网络 API，它能够以 TensorFlow, CNTK, 或者 Theano 作为后端运行。Keras 的开发重点是支持快速的实验。能够以最小的时间把你的想法转换为实验结果，是做好研究的关键。本人是keras的忠实粉丝，可能是因为它实在是太简单易用了，不用多少代码就可以将自己的想法完全实现，但是在使用的过程中还是遇到了不少坑，本文做了一个归纳，供大家参考。
 

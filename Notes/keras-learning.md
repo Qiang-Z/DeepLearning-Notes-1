@@ -888,6 +888,142 @@ if __name__ == '__main__':
 
 参考：[UpSampling2D、Conv2DTranspose - zh_JNU的博客 - CSDN博客](<https://blog.csdn.net/zh_JNU/article/details/80986786>)
 
+关于 Conv2DTranspose 输出大小计算：[keras的Conv2DTranspose与Conv2D输出大小](<https://blog.csdn.net/nima1994/article/details/83959495>)
+
+### 补充：keras 中 Conv2DTranspose层
+
+``` python
+keras.layers.convolutional.Conv2DTranspose(filters, kernel_size, strides=(1, 1), padding='valid', data_format=None, activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None)
+```
+
+该层是转置的卷积操作（反卷积）。需要反卷积的情况通常发生在用户想要对一个普通卷积的结果做反方向的变换。例如，将具有该卷积层输出shape的tensor转换为具有该卷积层输入shape的tensor。同时保留与卷积层兼容的连接模式。
+
+当使用该层作为第一层时，应提供`input_shape`参数。例如`input_shape = (3,128,128)`代表128*128的彩色RGB图像
+
+参数：
+
+``` xml
+filters：卷积核的数目（即输出的维度）
+kernel_size：单个整数或由两个个整数构成的list/tuple，卷积核的宽度和长度。如为单个整数，则表示在各个空间维度的相同长度。
+strides：单个整数或由两个整数构成的list/tuple，为卷积的步长。如为单个整数，则表示在各个空间维度的相同步长。任何不为1的strides均与任何不为1的dilation_rate均不兼容
+padding：补0策略，为“valid”, “same” 。“valid”代表只进行有效的卷积，即对边界数据不处理。“same”代表保留边界处的卷积结果，通常会导致输出shape与输入shape相同。
+activation：激活函数，为预定义的激活函数名（参考激活函数），或逐元素（element-wise）的Theano函数。如果不指定该参数，将不会使用任何激活函数（即使用线性激活函数：a(x)=x）
+dilation_rate：单个整数或由两个个整数构成的list/tuple，指定dilated convolution中的膨胀比例。任何不为1的dilation_rate均与任何不为1的strides均不兼容。
+data_format：字符串，“channels_first”或“channels_last”之一，代表图像的通道维的位置。该参数是Keras 1.x中的image_dim_ordering，“channels_last”对应原本的“tf”，“channels_first”对应原本的“th”。以128x128的RGB图像为例，“channels_first”应将数据组织为（3,128,128），而“channels_last”应将数据组织为（128,128,3）。该参数的默认值是~/.keras/keras.json中设置的值，若从未设置过，则为“channels_last”。
+use_bias:布尔值，是否使用偏置项
+kernel_initializer：权值初始化方法，为预定义初始化方法名的字符串，或用于初始化权重的初始化器。参考initializers
+bias_initializer：权值初始化方法，为预定义初始化方法名的字符串，或用于初始化权重的初始化器。参考initializers
+kernel_regularizer：施加在权重上的正则项，为Regularizer对象
+bias_regularizer：施加在偏置向量上的正则项，为Regularizer对象
+activity_regularizer：施加在输出上的正则项，为Regularizer对象
+kernel_constraints：施加在权重上的约束项，为Constraints对象
+bias_constraints：施加在偏置上的约束项，为Constraints对象
+```
+
+参考：<https://keras-cn.readthedocs.io/en/latest/layers/convolutional_layer/>
+
+### 补充，在 tensorflow 中：tf.layers.conv2d_transpose（和tf.nn.conv2d_transpose？）
+
+（1）[tf.layers.conv2d_transpose 反卷积](<https://blog.csdn.net/weiwei9363/article/details/78954063>)
+
+参数：
+
+``` xml
+conv2d_transpose( 
+inputs, 
+filters, 
+kernel_size, 
+strides=(1, 1), 
+padding=’valid’, 
+data_format=’channels_last’, 
+activation=None, 
+use_bias=True, 
+kernel_initializer=None, 
+bias_initializer=tf.zeros_initializer(), 
+kernel_regularizer=None, 
+bias_regularizer=None, 
+activity_regularizer=None, 
+kernel_constraint=None, 
+bias_constraint=None, 
+trainable=True, 
+name=None, 
+reuse=None 
+)
+```
+
+比较关注的参数：
+
+- inputs: 输入的张量
+- filters: 输出卷积核的数量
+- kernel_size : 在卷积操作中卷积核的大小
+- strides: （不太理解，我直接理解成放大的倍数）
+- padding : ‘valid’ 或者 ‘same’。
+
+反卷积的过程：
+
+- Step 1 扩充: 将 inputs 进行填充扩大。扩大的倍数与strides有关。扩大的方式是在元素之间插strides - 1 个 0
+
+- Step 2 卷积: 对扩充变大的矩阵，用大小为kernel_size卷积核做卷积操作，这样的卷积核有filters个，并且这里的步长为1(与参数strides无关，一定是1)
+
+举个例子：
+
+- inputs：[ [1, 1], [2,2] ]
+- strides = 2(扩大2倍)
+- filters = 1
+- kernel_size = 3(假设核的值都是1)
+- padding = ‘same’
+
+代码：
+
+``` python
+a = np.array([[1,1],[2,2]], dtype=np.float32)
+# [[1,1],
+#  [2,2]]
+
+# tf.layers.conv2d_transpose 要求输入是4维的
+a = np.reshape(a, [1,2,2,1])
+
+# 定义输入
+x = tf.constant(a,dtype=tf.float32)
+# 进行tf.layers.conv2d_transpose
+upsample_x = tf.layers.conv2d_transpose(x, 1, 3, strides=2, padding='same', kernel_initializer=tf.ones_initializer())
+with tf.Session() as sess:
+    tf.global_variables_initializer().run()
+    print(sess.run(upsample_x))
+    # [[[[1],[1],[2],[1]],
+    #   [[1],[1],[2],[1]],
+    #   [[3],[3],[6],[3]],
+    #   [[2],[2],[4],[2]]]]
+```
+
+（2）[【TensorFlow】tf.nn.conv2d_transpose是怎样实现反卷积的？](<https://blog.csdn.net/mao_xiao_feng/article/details/71713358>)
+
+今天来介绍一下Tensorflow里面的反卷积操作，网上反卷积的用法的介绍比较少，希望这篇教程可以帮助到各位
+
+反卷积出自这篇论文：Deconvolutional Networks，有兴趣的同学自行了解
+
+首先无论你如何理解反卷积，请时刻记住一点，反卷积操作是卷积的反向
+
+如果你随时都记住上面强调的重点，那你基本就理解一大半了，接下来通过一些函数的介绍为大家强化这个观念
+
+conv2d_transpose(value, filter, output_shape, strides, padding="SAME", data_format="NHWC", name=None)
+
+``` xml
+除去name参数用以指定该操作的name，与方法有关的一共六个参数：
+第一个参数value：指需要做反卷积的输入图像，它要求是一个Tenso
+第二个参数filter：卷积核，它要求是一个Tensor，具有[filter_height, filter_width, out_channels, in_channels]这样的shape，具体含义是[卷积核的高度，卷积核的宽度，卷积核个数，图像通道数]
+第三个参数output_shape：反卷积操作输出的shape，细心的同学会发现卷积操作是没有这个参数的，那这个参数在这里有什么用呢？下面会解释这个问题
+第四个参数strides：反卷积时在图像每一维的步长，这是一个一维的向量，长度4
+第五个参数padding：string类型的量，只能是"SAME","VALID"其中之一，这个值决定了不同的卷积方式
+第六个参数data_format：string类型的量，'NHWC'和'NCHW'其中之一，这是tensorflow新版本中新加的参数，它说明了value参数的数据格式。'NHWC'指tensorflow标准的数据格式[batch, height, width, in_channels]，'NCHW'指Theano的数据格式,[batch, in_channels，height, width]，当然默认值是'NHWC'
+ 
+开始之前务必了解卷积的过程，参考我的另一篇文章：http://blog.csdn.net/mao_xiao_feng/article/details/53444333
+```
+
+（剩下内容略。。。
+
+
+
 ## 5. keras 中实现简单的反卷积
 
 我这里将反卷积分为两个操作，一个是 UpSampling2D()，**用上采样将原始图片扩大**，然后**用 Conv2D() 这个函数进行卷积操作**，**就可以完成简单的反卷积。** 
@@ -922,7 +1058,7 @@ keras.layers.convolutional.Conv2D(filters, kernel_size, strides=(1, 1), padding=
 
 参考：[keras中实现简单的反卷积](<https://blog.csdn.net/huangshaoyin/article/details/81004301>)
 
-**在 tensorflow 中： **
+### **在 tensorflow 中： **
 
 tensorflow 里面用于改变图像大小的函数是 `tf.image.resize_images(image, （w, h）, method)`：image 表示需要改变此存的图像，第二个参数改变之后图像的大小，method 用于表示改变图像过程用的差值方法。
 

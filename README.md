@@ -25,6 +25,12 @@
 2. 亚马逊：[利用AWS学习深度学习 For Udacity P5（第二篇：AWS 注册）](https://zhuanlan.zhihu.com/p/33202215)
 3. （待补充……
 
+图像标注：
+
+- [图片标注工具Labelme的安装及使用方法](<https://blog.csdn.net/zong596568821xp/article/details/83375227>)  | [labelme标注的数据分析](<https://blog.csdn.net/wc781708249/article/details/79595174>)  |  [图像语义分割标注工具labelme制作自己的数据集用于mask-rcnn训练](<https://blog.csdn.net/u011574296/article/details/79740633>)  |  …
+
+  > 注：本人使用 labelme 进行进行标注得到 json 文件，然后使用 `labelme_json_to_dataset` 转换的时候，得到的 label.png 为彩色，而非黑色图像，看评论有人说是版本问题…
+
 :stars: 如何找论文：[如何找论文 - 知乎](https://zhuanlan.zhihu.com/p/27484748)
 
 - [Google 学术搜索](https://scholar.google.com.hk/?hl=zh-CN)

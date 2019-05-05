@@ -1,4 +1,4 @@
-# 一、keras 安装和入门
+一、keras 安装和入门
 
 安装 keras：
 
@@ -608,6 +608,10 @@ Keras在使用.fit_generator训练模型时的过程：
 
 您会注意到我们现在需要在调用 .fit_generator 时提供 steps_per_epoch 参数（.fit方法没有这样的参数）。
 
+### steps_per_epoch
+
+（接上。。
+
 **为什么我们需要steps_per_epoch？** 
 
 请记住，Keras 数据生成器意味着无限循环，它永远不会返回或退出。
@@ -1058,7 +1062,7 @@ keras.layers.convolutional.Conv2D(filters, kernel_size, strides=(1, 1), padding=
 
 参考：[keras中实现简单的反卷积](<https://blog.csdn.net/huangshaoyin/article/details/81004301>)
 
-### **在 tensorflow 中： **
+### 在 tensorflow 中： tf.image.resize_images
 
 tensorflow 里面用于改变图像大小的函数是 `tf.image.resize_images(image, （w, h）, method)`：image 表示需要改变此存的图像，第二个参数改变之后图像的大小，method 用于表示改变图像过程用的差值方法。
 
@@ -1095,6 +1099,26 @@ with tf.Session() as sess:
 ```
 
 参考：[tensorflow里面用于改变图像大小的函数](<https://blog.csdn.net/UESTC_C2_403/article/details/72699260>)
+
+在 keras 代码中，还可以这样写：
+
+``` python
+from keras import backend K
+
+K.resize_images(x, x.shape[1]*2, x.shape[2]*2, "channels_last")
+```
+
+查下函数的定义，如下：
+
+``` python
+def resize_images(x,
+                  height_factor,
+                  width_factor,
+                  data_format,
+                  interpolation='nearest'):
+```
+
+
 
 ## 6. SGD 随机梯度下降优化器参数设置
 
@@ -1169,6 +1193,49 @@ model.fit(X, Y, ..., callbacks=[lrate])
 ```
 
 参考：<https://blog.csdn.net/u012862372/article/details/80319166>
+
+## 7. model.predict_classes(test) 和model.predict(test) 区别
+
+在keras中做深度网络预测时，有这两个预测函数model.predict_classes(test) 和model.predict(test)，本例中是多分类，标签经过了one-hot编码，如[1,2,3,4,5]是标签类别，经编码后为[1 0 0 0 0],[0 1 0 0 0]...[0 0 0 0 1]
+
+- model.predict_classes(test)预测的是类别，打印出来的值就是类别号
+
+  同时只能用于序列模型来预测，不能用于函数式模型
+
+    ``` python
+      predict_test = model.predict_classes(X_test).astype('int')
+      inverted = encoder.inverse_transform([predict_test])
+      print(predict_test)
+      print(inverted[0])
+    ```
+
+    ``` xml
+    [1 0 0 ... 1 0 0]
+    [2. 1. 1. ... 2. 1. 1.]
+    ```
+
+- model.predict(test)预测的是数值,而且输出的还是5个编码值，不过是实数，预测后要经过argmax(predict_test,axis=1)
+
+  ``` python
+  predict_test = model.predict(X_test)
+  predict = argmax(predict_test,axis=1)  #axis = 1是取行的最大值的索引，0是列的最大值的索引
+  inverted = encoder.inverse_transform([predict])
+  print(predict_test[0:3])
+  print(argmax(predict_test,axis=1))
+  print(inverted)
+  ```
+
+  ``` xml
+  [[9.9992561e-01 6.9890179e-05 2.3676146e-06 1.9608513e-06 2.5582506e-07]
+  [9.9975246e-01 2.3708738e-04 4.9365349e-06 5.2166861e-06 3.3735736e-07]
+  [9.9942291e-01 5.5233808e-04 8.9857504e-06 1.5617061e-05 2.4388814e-07]]
+  [0 0 0 ... 0 0 0]
+  [[1. 1. 1. ... 1. 1. 1.]]
+  ```
+
+  由于前几个和后几个每个预测值编码都是第一列最大，所以索引是0，反编码后是1
+
+参考：[model.predict_classes(test) 和model.predict(test) 区别](<https://blog.csdn.net/zds13257177985/article/details/80638384>)
 
 
 
@@ -1267,11 +1334,246 @@ metric 的作用本来就只是评价，不参与训练。如果你想要把这�
 
 
 
+
+
+# 个人学习笔记及遇到的坑记录
+
+## model.fit_generator()
+
+先看代码：
+
+``` python
+checkpoint = ModelCheckpoint(filepath=model_name + '_model.h5',
+                             monitor='val_dice_coef',
+                             save_best_only=True,
+                             save_weights_only=True)
+```
+
+
+
+```python
+history = model.fit_generator(data_generator('dataset_parser/data_remote_images.h5', TRAIN_BATCH, 'train'),
+                              steps_per_epoch=7500 // TRAIN_BATCH,
+                              validation_data=data_generator('dataset_parser/data_remote_images.h5', VAL_BATCH, 'val'),
+                              validation_steps=2500 // VAL_BATCH,
+                              callbacks=[checkpoint, train_check],
+                              epochs=10,
+                              verbose=1)
+```
+
+我们先看网上对这些函数参数的解读：
+
+1、ModelCheckpoint
+
+``` python
+keras.callbacks.ModelCheckpoint(filepath,monitor='val_loss',verbose=0,save_best_only=False, save_weights_only=False, mode='auto', period=1) 
+```
+
+参数说明：
+
+- filename：字符串，保存模型的路径
+- monitor：需要监视的值
+- verbose：信息展示模式，0或1(checkpoint的保存信息，类似Epoch 00001: saving model to ...)
+- save_best_only：当设置为True时，监测值有改进时才会保存当前的模型（ the latest best model according to the quantity monitored will not be overwritten）
+- mode：‘auto’，‘min’，‘max’之一，在save_best_only=True时决定性能最佳模型的评判准则，例如，当监测值为val_acc时，模式应为max，当监测值为val_loss时，模式应为min。在auto模式下，评价准则由被监测值的名字自动推断。
+- save_weights_only：若设置为True，则只保存模型权重，否则将保存整个模型（包括模型结构，配置信息等）
+- period：CheckPoint之间的间隔的epoch数
+
+——from：[Keras笔记——ModelCheckpoint](<https://blog.csdn.net/breeze5428/article/details/80875323>)
+
+以下为另外一篇博文的摘录 <https://blog.csdn.net/googler_offer/article/details/80916002>：
+
+``` xml
+from keras.callbacks import Model
+checkpoint = ModelCheckpoint(filepath=file_name(就是你准备存放最好模型的地方), 
+monitor='val_acc'(或者换成你想监视的值,比如acc,loss,
+val_loss,其他值应该也可以,还没有试),
+verbose=1(如果你喜欢进度条,那就选1,如果喜欢清爽的就选0,verbose=冗余的),
+save_best_only='True'(只保存最好的模型,也可以都保存),
+mode='auto'(如果监视器monitor选val_acc, mode就选'max',如果monitor选acc,mode也可以选'max',如果monitor选loss,mode就选'min'),一般情况下选'auto',
+period=1(checkpoints之间间隔的epoch数))
+/*
+filename：字符串，保存模型的路径
+monitor：需要监视的值
+verbose：信息展示模式，0或1
+save_best_only：当设置为True时，将只保存在验证集上性能最好的模型
+mode：‘auto’，‘min’，‘max’之一，在save_best_only=True时决定性能最佳模型的评判准则，
+例如，当监测值为val_acc时，模式应为max，
+当检测值为val_loss时，模式应为min。在auto模式下，评价准则由被监测值的名字自动推断。
+save_weights_only：若设置为True，则只保存模型权重，否则将保存整个模型（包括模型结构，配置信息等）
+ 
+period：CheckPoint之间的间隔的epoch数
+*/
+```
+
+**1）monitor**
+
+以上可以看到 monitor 的默认的取值有 `acc`、`loss`、 `val_acc`、`val_loss` 表示什么意思呢？表示分别可以监测训练集准确率和 loss，验证集准确率和 loss，这个在控制台打印也可以看到显示的是如此：
+
+![](https://img-1256179949.cos.ap-shanghai.myqcloud.com/20190505110351.png)
+
+但也有看到程序代码 monitor 取值为 `val_dice_coef`，这是为什么呢？这是因为该程序在性能评价的时候使用了自定义评价函数：
+
+```python
+def dice_coef(y_true, y_pred):
+    return (2. * K.sum(y_true * y_pred) + 1.) / (K.sum(y_true) + K.sum(y_pred) + 1.)
+```
+
+``` python
+model.compile(optimizer=Adam(lr=lr_init, decay=lr_decay),
+                  loss='categorical_crossentropy',
+                  metrics=[dice_coef])
+```
+
+所以 monitor 需要监测验证集准确率，这个情况下得使用 `val_dice_coef`。在控制台打印的时候可以看到显示的也是 `dice_coef`、`val_dice_coef` 字样：
+
+``` xml
+468/468 [==============================] - 445s 951ms/step - loss: 0.7548 - dice_coef: 0.6032 - val_loss: 1.3339 - val_dice_coef: 0.5238
+```
+
+否则显示的是 acc、val_acc 字样。若这个时候想要监测训练集准确率，那么 monitor 参数设为 `dice_coef` 即可。
+
+注：**save_best_only 参数**，我的理解是，monitor 设置了监测指标，比如监测验证集 loss，那么 save_best_only=True 则表示保存最好的模型（即 验证集 loss 最低的时候）。
+
+**2）steps_per_epoch**
+
+见前文「steps_per_epoch」节。
+
+> **训练数据的总数除以批量大小的结果作为steps_per_epoch的值**。**一旦 Keras 到达这一步，它就会知道这是一个新的epoch。**
+
+**3）validation_steps**
+
+**validation_steps**: 仅当 `validation_data` 是一个生成器时才可用。 每个 epoch 结束时验证集生成器产生的步数。它通常应该等于你的数据集的样本数量除以批量大小。可选参数 `Sequence`：如果未指定，将使用 `len(generator)` 作为步数。——from：<https://keras.io/zh/models/sequential/>
+
+
+
+
+
+## EarlyStopping callbacks
+
+1、EarlyStopping 是什么？
+
+EarlyStopping是Callbacks的一种，callbacks用于指定在每个epoch开始和结束的时候进行哪种特定操作。
+
+Callbacks中有一些设置好的接口，可以直接使用，如’acc’,’val_acc’,’loss’和’val_loss’等等。 
+
+**EarlyStopping 则是用于提前停止训练的callbacks。**具体地，可以达到当训练集上的 loss 不在减小（即减小的程度小于某个阈值）的时候停止继续训练。
+
+2、为什么要用EarlyStopping？
+
+根本原因就是因为继续训练会导致测试集上的准确率下降。 
+
+那继续训练导致测试准确率下降的原因猜测可能是1. 过拟合 2. 学习率过大导致不收敛 3. 使用正则项的时候，Loss的减少可能不是因为准确率增加导致的，而是因为权重大小的降低。
+
+当然使用EarlyStopping也可以加快学习的速度，提高调参效率。
+
+3、EarlyStopping的使用与技巧
+
+一般是在model.fit函数中调用callbacks，fit函数中有一个参数为callbacks。注意这里需要输入的是list类型的数据，所以通常情况只用EarlyStopping的话也要是[EarlyStopping()]
+
+EarlyStopping的参数有：
+
+- monitor: 监控的数据接口，有’acc’,’val_acc’,’loss’,’val_loss’等等。正常情况下如果有验证集，就用’val_acc’或者’val_loss’。但是因为笔者用的是5折交叉验证，没有单设验证集，所以只能用’acc’了。
+- min_delta：增大或减小的阈值，只有大于这个部分才算作improvement。这个值的大小取决于monitor，也反映了你的容忍程度。例如笔者的monitor是’acc’，同时其变化范围在70%-90%之间，所以对于小于0.01%的变化不关心。加上观察到训练过程中存在抖动的情况（即先下降后上升），所以适当增大容忍程度，最终设为0.003%。
+- patience：能够容忍多少个epoch内都没有improvement。这个设置其实是在抖动和真正的准确率下降之间做tradeoff。如果patience设的大，那么最终得到的准确率要略低于模型可以达到的最高准确率。如果patience设的小，那么模型很可能在前期抖动，还在全图搜索的阶段就停止了，准确率一般很差。patience的大小和learning rate直接相关。在learning rate设定的情况下，前期先训练几次观察抖动的epoch number，比其稍大些设置patience。在learning rate变化的情况下，建议要略小于最大的抖动epoch number。笔者在引入EarlyStopping之前就已经得到可以接受的结果了，EarlyStopping算是锦上添花，所以patience设的比较高，设为抖动epoch number的最大值。
+- mode: 就’auto’, ‘min’, ‘,max’三个可能。如果知道是要上升还是下降，建议设置一下。笔者的monitor是’acc’，所以mode=’max’。
+
+min_delta和patience都和“避免模型停止在抖动过程中”有关系，所以调节的时候需要互相协调。通常情况下，min_delta降低，那么patience可以适当减少；min_delta增加，那么patience需要适当延长；反之亦然。
+
+## Keras保存最好的模型并用tensorboard可视化
+
+不管是Tensorboard还是保存最好的模型,都需要用到Keras的一个重要模块: **keras.callbacks**
+
+比如Tensorboard是：
+
+``` python
+from keras.callback import Tensorboad
+```
+
+keras.callbacks在model.fit中发挥作用,写法是：
+
+``` python
+from keras.callbacks import Tensorboard
+......
+tensorboard = Tensorboard(log_dir='log(就是你想存事件的文件夹)')
+callback_lists = [tensorboard]  #因为callback是list型,必须转化为list
+model.fit(x_train,y_train,bach_size=batch_size,epochs=epoch,shuffle='True',verbose='True',callbacks=callback_lists)
+```
+
+效果如下：略。。。
+
+似乎有点跑题了，也算是自己的一个复习，keras保存最好的模型也用到keras.callbacks，用法如下: ModelCheckpoint：
+
+``` python
+from keras.callbacks import ModelCheckpoint
+```
+
+``` python
+checkpoint = ModelCheckpoint(filepath=file_name(就是你准备存放最好模型的地方), 
+monitor='val_acc'(或者换成你想监视的值,比如acc,loss,
+val_loss,其他值应该也可以,还没有试),
+verbose=1(如果你喜欢进度条,那就选1,如果喜欢清爽的就选0,verbose=冗余的),
+save_best_only='True'(只保存最好的模型,也可以都保存),
+mode='auto'(如果监视器monitor选val_acc, mode就选'max',如果monitor选acc,mode也可以选'max',如果monitor选loss,mode就选'min'),一般情况下选'auto',
+period=1(checkpoints之间间隔的epoch数))
+```
+
+``` python
+keras.callbacks.ModelCheckpoint(filepath, monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=1)
+```
+
+既然Tensorboard和ModelCheckpoint都属于keras.callbacks类,那我们把它们写到一起吧。
+
+``` python
+from keras.callbacks import Tensorboad
+from keras.callbacks import ModelCheckpoint
+.....
+tensorboad = Tensorboard(log_dir='log')
+checkpoint = ModelCheckpoint(filepath='file_name',monitor='val_acc',mode='auto' ,save_best_only='True')
+
+callback_lists=[tensorboard,checkpoint]
+......
+model.fit(x_train,y_train,batch_size=batch_size,epochs=epochs,validation_split=0.33,shuffle=1,verbose=1,callbacks=callback_lists)
+```
+
+这样即保存了模型，也可以在tensorboard中可视化。
+
+再次使用模型的时候,需要调用：
+
+``` python
+from keras.models import save_model(load_mode)
+......
+model = load_model('best_weights.h5')
+loss,acc = model.evaluate(x_test,y_test,batch_size=batch_size,verbose=0)
+
+print('test_loss',loss,'test_accuracy',acc)
+```
+
+这个callbacks感觉很有用，ReduceLROnPlateau。
+
+当评价指标不在提升时，减少学习率
+
+当学习停滞时，减少2倍或10倍的学习率常常能获得较好的效果。该回调函数检测指标的情况，如果在patience个epoch中看不到模型性能提升，则减少学习率(是不是很棒!)
+
+``` xml
+参数
+
+monitor：被监测的量
+factor：每次减少学习率的因子，学习率将以lr = lr*factor的形式被减少
+patience：当patience个epoch过去而模型性能不提升时，学习率减少的动作会被触发
+mode：‘auto’，‘min’，‘max’之一，在min模式下，如果检测值触发学习率减少。在max模式下，当检测值不再上升则触发学习率减少。
+epsilon：阈值，用来确定是否进入检测值的“平原区”
+cooldown：学习率减少后，会经过cooldown个epoch才重新进行正常操作
+min_lr：学习率的下限
+```
+
+——from：[Keras保存最好的模型](<https://www.jianshu.com/p/0711f9e54dd2>)
+
+
+
 ---
 
-
-
-# keras 的坑
+# 整理于网络：keras 的坑
 
 Keras 是一个用 Python 编写的高级神经网络 API，它能够以 TensorFlow, CNTK, 或者 Theano 作为后端运行。Keras 的开发重点是支持快速的实验。能够以最小的时间把你的想法转换为实验结果，是做好研究的关键。本人是keras的忠实粉丝，可能是因为它实在是太简单易用了，不用多少代码就可以将自己的想法完全实现，但是在使用的过程中还是遇到了不少坑，本文做了一个归纳，供大家参考。
 

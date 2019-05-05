@@ -31,6 +31,10 @@
 
   > 注：本人使用 labelme 进行进行标注得到 json 文件，然后使用 `labelme_json_to_dataset` 转换的时候，得到的 label.png 为彩色，而非黑色图像，看评论有人说是版本问题…
 
+文献管理类软件 - Zotero 使用：[科研工作者的神器-zotero论文管理工具](https://mp.weixin.qq.com/s/rUv0d05xJgMxm2YoefWH5A)  |  …
+
+> 
+
 :stars: 如何找论文：[如何找论文 - 知乎](https://zhuanlan.zhihu.com/p/27484748)
 
 - [Google 学术搜索](https://scholar.google.com.hk/?hl=zh-CN)
@@ -708,6 +712,7 @@ News：
 
 - [NAS（神经结构搜索）综述](https://mp.weixin.qq.com/s/7ikm_fijepQzcEfGqYlAmw)
 - [谷歌Auto-DeepLab：自动搜索图像语义分割架构算法开源实现](https://mp.weixin.qq.com/s/4WIHo5UHi1yUlnNR8PUozQ)
+- 
 
 
 <div align="right">

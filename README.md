@@ -31,9 +31,13 @@
 
   > 注：本人使用 labelme 进行进行标注得到 json 文件，然后使用 `labelme_json_to_dataset` 转换的时候，得到的 label.png 为彩色，而非黑色图像，看评论有人说是版本问题…
 
-文献管理类软件 - Zotero 使用：[科研工作者的神器-zotero论文管理工具](https://mp.weixin.qq.com/s/rUv0d05xJgMxm2YoefWH5A)  |  …
+文献管理类软件 
 
-> 
+- Zotero 使用：[科研工作者的神器-zotero论文管理工具](https://mp.weixin.qq.com/s/rUv0d05xJgMxm2YoefWH5A)  |  …
+
+  > 
+
+- 其他文献管理类软件：[文献引用管理工具 Mendeley 简明教程](<https://blog.wildcat.io/2017/12/a-simple-tutorial-about-mendely/>)  |  …
 
 :stars: 如何找论文：[如何找论文 - 知乎](https://zhuanlan.zhihu.com/p/27484748)
 

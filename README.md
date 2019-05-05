@@ -557,6 +557,8 @@ GAN：一种概率生成模型。简单说， **概率生成模型的目的，�
 
 ## 6. Resources
 
+!!!学习资料：[重磅 | 完备的 AI 学习路线，最详细的资源整理！](https://mp.weixin.qq.com/s/3_KT7WZvvTGts3wprlpFPA)
+
 ### 6.1 Books
 
 这两年关于人工智能特别是深度学习的书如雨后春笋不断涌现。下面列举一些被大家普遍评价较高以及我有大概浏览了下觉得不错的书，权当个参考吧：
@@ -697,6 +699,15 @@ News：
 
 - [1300篇！CVPR 2019论文接收结果公布，你上榜了吗？](https://mp.weixin.qq.com/s/uzcEXQ1ePfDEFB2PRmlAbw)
 - ……
+
+---
+
+---
+
+随摘-待整理：
+
+- [NAS（神经结构搜索）综述](https://mp.weixin.qq.com/s/7ikm_fijepQzcEfGqYlAmw)
+- [谷歌Auto-DeepLab：自动搜索图像语义分割架构算法开源实现](https://mp.weixin.qq.com/s/4WIHo5UHi1yUlnNR8PUozQ)
 
 
 <div align="right">

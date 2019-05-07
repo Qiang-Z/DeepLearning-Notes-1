@@ -25,17 +25,51 @@
 2. 亚马逊：[利用AWS学习深度学习 For Udacity P5（第二篇：AWS 注册）](https://zhuanlan.zhihu.com/p/33202215)
 3. （待补充……
 
-图像标注：
+图像标注 - labelme - 图像分割：
 
-- [图片标注工具Labelme的安装及使用方法](<https://blog.csdn.net/zong596568821xp/article/details/83375227>)  | [labelme标注的数据分析](<https://blog.csdn.net/wc781708249/article/details/79595174>)  |  [图像语义分割标注工具labelme制作自己的数据集用于mask-rcnn训练](<https://blog.csdn.net/u011574296/article/details/79740633>)  |  …
+- [wkentaro/labelme](<https://www.jianshu.com/p/8d78362fe9cf>)  | [图片标注工具Labelme的安装及使用方法](<https://blog.csdn.net/zong596568821xp/article/details/83375227>)  | [labelme标注的数据分析](<https://blog.csdn.net/wc781708249/article/details/79595174>)  |  [图像语义分割标注工具labelme制作自己的数据集用于mask-rcnn训练](<https://blog.csdn.net/u011574296/article/details/79740633>)  |  …
 
-  > 注：本人使用 labelme 进行进行标注得到 json 文件，然后使用 `labelme_json_to_dataset` 转换的时候，得到的 label.png 为彩色，而非黑色图像，看评论有人说是版本问题…
+  > Windows 下安装：
+  >
+  > ```
+  > pip install pyqt5  # pyqt5 can be installed via pip on python3
+  > pip install labelme
+  > ```
+  >
+  > 如上默认安装的是 labelme 最新版，此时我的版本是：`3.14.1`
+  >
+  > 注1：本人使用 labelme 进行进行标注得到 json 文件，然后使用 `labelme_json_to_dataset` 转换的时候，得到的 label.png 为彩色，而非黑色图像，看评论有人说是版本问题… 
+  >
+  > 注2：然后我安装了 labelme 旧版 `2.9.0`，`pip install labelme==2.9.0`，发现这个版本 `labelme_json_to_dataset` 命令生成的 `label.png` 文件确实是全黑色，并且是 **16 位深度**的。
+  >
+  > 然后我使用 cv2.imread(“label.png”) 读取发现得到的数值最小最大都是0；使用 cv2.imread(label.png”, 2) 读取发现得到的数值最小是0，最大是1，为什么呢？后来知道了。先看 [opencv imread()方法第二个参数介绍](<https://blog.csdn.net/qq_27278957/article/details/84589526>) | [opencv中imread第二个参数的含义](<https://blog.csdn.net/z914022466/article/details/52709981#>)，可以说，`imread(const string& filename, int flag=1)`，filename 指图像名称，flag 指读取图像颜色类型。
+  >
+  > - flag=-1时，8位深度，原通道
+  > - flag=0，8位深度，1通道
+  > - flag=1,   8位深度  ，3通道
+  > - flag=2，原深度，1通道
+  > - flag=3,  原深度，3通道
+  > - flag=4，8位深度 ，3通道
+  >
+  > 我解释下：因为 label.png 是 16 位的，默认 flag=1，按上可以看到只读取到了图像的 8 位，得到 3 通道，得到的全是 0；若 flag=2，按原深度即读取了图像位深度 16 位，得到了数值 1。
+  >
+  > 我的理解：本质原因在于 imread 读取了图像的多少位。另外注意，如果本来是 1 个通道的图像，imread 第二个参数选择了返回 3 个通道的，那么第一个通道读取的数值，在相同像素的位置另外两个通道也会有同样数值。
+
+图像标注 - labelimg - 目标检测：
+
+- [LabelImg图片标注](<https://www.jianshu.com/p/8d78362fe9cf>)  |  …
 
 文献管理类软件 
 
 - Zotero 使用：[科研工作者的神器-zotero论文管理工具](https://mp.weixin.qq.com/s/rUv0d05xJgMxm2YoefWH5A)  |  …
 
-  > 
+  > 插入文献使用方法：
+  >
+  > 1. 在需要插入上标的文字地方，先点击 Add/Edit Citation，再选择文献（第一次的话还需要先选择样式）
+  > 2. 然后在需要列出参考文献的地方，点击 Add/Edit Bibliography，即可插入相应文献。
+  > 3. 每次文章插入上标后，点击 Refresh，即可更新相应的参考文献。
+  >
+  > 注：[在 Word 中插入、编辑和查看域 - Office 支持](https://support.office.com/zh-cn/article/%E5%9C%A8-word-%E4%B8%AD%E6%8F%92%E5%85%A5%E3%80%81%E7%BC%96%E8%BE%91%E5%92%8C%E6%9F%A5%E7%9C%8B%E5%9F%9F-c429bbb0-8669-48a7-bd24-bab6ba6b06bb) - 按 Ctrl + F9，在括号中键入代码；按 Alt + F9，显示域代码….
 
 - 其他文献管理类软件：[文献引用管理工具 Mendeley 简明教程](<https://blog.wildcat.io/2017/12/a-simple-tutorial-about-mendely/>)  |  …
 

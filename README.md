@@ -25,6 +25,10 @@
 2. 亚马逊：[利用AWS学习深度学习 For Udacity P5（第二篇：AWS 注册）](https://zhuanlan.zhihu.com/p/33202215)
 3. （待补充……
 
+深度学习调参：
+
+- [你必须知道的六个深度炼丹好习惯 - 知乎](<https://zhuanlan.zhihu.com/p/64604071>)
+
 图像标注 - labelme - 图像分割：
 
 - [wkentaro/labelme](<https://www.jianshu.com/p/8d78362fe9cf>)  | [图片标注工具Labelme的安装及使用方法](<https://blog.csdn.net/zong596568821xp/article/details/83375227>)  | [labelme标注的数据分析](<https://blog.csdn.net/wc781708249/article/details/79595174>)  |  [图像语义分割标注工具labelme制作自己的数据集用于mask-rcnn训练](<https://blog.csdn.net/u011574296/article/details/79740633>)  |  …
@@ -54,14 +58,16 @@
   > 我解释下：因为 label.png 是 16 位的，默认 flag=1，按上可以看到只读取到了图像的 8 位，得到 3 通道，得到的全是 0；若 flag=2，按原深度即读取了图像位深度 16 位，得到了数值 1。
   >
   > 我的理解：本质原因在于 imread 读取了图像的多少位。另外注意，如果本来是 1 个通道的图像，imread 第二个参数选择了返回 3 个通道的，那么第一个通道读取的数值，在相同像素的位置另外两个通道也会有同样数值。
+  >
+  > 注：可以使用  matlab 软件 imread(imagepath) 读取图像，点击打开工作区的 ans，可以看到图像数值以及是通道数量。
 
 图像标注 - labelimg - 目标检测：
 
 - [LabelImg图片标注](<https://www.jianshu.com/p/8d78362fe9cf>)  |  …
 
-文献管理类软件 
+文献管理类软件：
 
-- Zotero 使用：[科研工作者的神器-zotero论文管理工具](https://mp.weixin.qq.com/s/rUv0d05xJgMxm2YoefWH5A)  |  …
+- Zotero 使用：[科研工作者的神器-zotero论文管理工具](https://mp.weixin.qq.com/s/rUv0d05xJgMxm2YoefWH5A)  |  [文献管理软件zotero的一点使用感受](<https://blog.yesmryang.net/zotero-usage/>)  |  …
 
   > 插入文献使用方法：
   >
@@ -204,7 +210,7 @@
 
 - [tensorflow-learning](https://github.com/strivebo/tensorflow-learning)
 - [pytorch-learning](https://github.com/strivebo/pytorch-learning)
-- [keras-learning.md](./Notes/keras-learning.md)  | [Keras 中文文档](<https://keras.io/zh/>)  |  [使用Keras、Python、Theano和TensorFlow开发深度学习模型](<https://cnbeining.github.io/deep-learning-with-python-cn/Preface.html>) | …
+- [keras-learning.md](./Notes/keras-learning.md)  | [Keras 中文文档](<https://keras.io/zh/>)  |  [使用Keras、Python、Theano和TensorFlow开发深度学习模型](<https://cnbeining.github.io/deep-learning-with-python-cn/Preface.html>) | [【TensorFlow2.0】以后我们再也离不开Keras了？](<https://www.codercto.com/a/75372.html>)（用的 tf.keras 而非 keras）  |  …
 - [深度学习框架对比.md](./Notes/深度学习框架对比.md)
 
 :point_right: 关于目标检测（Object Detection）的学习见：[目标检测专题](./Notes目标检测/README.md)
@@ -430,7 +436,13 @@
 
 - [【中文】Mask R-CNN 深度解读与源码解析 目标检测 物体检测 RCNN object detection 语义分割_哔哩哔哩](<https://www.bilibili.com/video/av24795835/?p=1>)
 
+文章：
+
+- [从YOLOv1到v3的进化之路](<http://www.mamicode.com/info-detail-2314392.html>)
+
 （待更……）
+
+
 
 
 

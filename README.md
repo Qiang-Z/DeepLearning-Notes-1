@@ -28,6 +28,8 @@
 深度学习调参：
 
 - [你必须知道的六个深度炼丹好习惯 - 知乎](<https://zhuanlan.zhihu.com/p/64604071>)
+- [深度学习网络调参技巧 - 知乎](<https://zhuanlan.zhihu.com/p/24720954>)
+- [深度学习调参有哪些技巧？ - 知乎](<https://www.zhihu.com/question/25097993/answer/585714651>)
 
 图像标注 - labelme - 图像分割：
 

@@ -69,15 +69,27 @@
 
 文献管理类软件：
 
-- Zotero 使用：[科研工作者的神器-zotero论文管理工具](https://mp.weixin.qq.com/s/rUv0d05xJgMxm2YoefWH5A)  |  [文献管理软件zotero的一点使用感受](<https://blog.yesmryang.net/zotero-usage/>)  |  …
+- Zotero：
 
-  > 插入文献使用方法：
+  > 简单来说，Zotero 是一款文献管理工具。帮助你收集、管理和引用具有参考价值的论文、期刊、书籍等知识性资源。初期的 Zotero 是基于 Firefox 浏览器的一款插件，目前已有独立单机版可下载。
   >
-  > 1. 在需要插入上标的文字地方，先点击 Add/Edit Citation，再选择文献（第一次的话还需要先选择样式）
-  > 2. 然后在需要列出参考文献的地方，点击 Add/Edit Bibliography，即可插入相应文献。
-  > 3. 每次文章插入上标后，点击 Refresh，即可更新相应的参考文献。
+  > Zotero 的软件界面是基于浏览器内核的，支持 Windows, MacOS, Linux 多种操作系统。作为一款协助科研工作者收集、管理以及引用研究资源的免费软件，如今已被广泛使用。
   >
-  > 注：[在 Word 中插入、编辑和查看域 - Office 支持](https://support.office.com/zh-cn/article/%E5%9C%A8-word-%E4%B8%AD%E6%8F%92%E5%85%A5%E3%80%81%E7%BC%96%E8%BE%91%E5%92%8C%E6%9F%A5%E7%9C%8B%E5%9F%9F-c429bbb0-8669-48a7-bd24-bab6ba6b06bb) - 按 Ctrl + F9，在括号中键入代码；按 Alt + F9，显示域代码….
+  > 浏览器扩展：Chrome 下的安装 [Zotero Connector](https://chrome.google.com/webstore/detail/zotero-connector/ekhagklcjbdpajgpjgmbionohlpdbjgc/related?utm_source=chrome-ntp-icon)，这个插件安装后，会在浏览器中产生一个按钮（支持Chrome，Firefox 等），当你在线搜索到一篇或一系列文献时，这个按钮会检测到你目前的页面中所包含的文献信息和 pdf 附件。只要轻点按钮，就可以把这些信息和所有的附件下载到本地的 Zotero 软件中。
+  >
+  > 如何分享引用研究资源、插入文献、坚果云同步文献：[科研工作者的神器-zotero论文管理工具](https://mp.weixin.qq.com/s/rUv0d05xJgMxm2YoefWH5A)（我使用的该方式）  |  [标准论文参考文献添加方法——Zotero入门使用教程](https://blog.csdn.net/misayaaaaa/article/details/53559689)  | [如何在Zotero中设置webdav连接到坚果云？](http://help.jianguoyun.com/?p=3168)
+  >
+  > - 注：插入文献时候，如果需删除「域」，碰到直接删除卡顿，可以先「解除域」再删除，这样会很快。接触域的快捷键为 `Ctrl＋Shift＋F9`。参考：[怎样全部去掉word中的域_百度知道](https://zhidao.baidu.com/question/166021389.html)。如果文件已进行了保存，想要还原域是没办法了，否则可以通过撤销上一步操作还原。
+  >
+  > 详细的：[Zotero（1）：文献管理软件Zotero基础及进阶示范 - 阳志平的网志](https://www.yangzhiping.com/tech/zotero1.html)
+
+- Endnote
+
+  > 下载：[文献管理软件 EndNote X9.1 中科大批量授权版(中文一键直装破解)](<https://www.jb51.net/softs/637860.html>)
+  >
+  > Endnote由Thomson Corporation下属的Thomson ResearchSoft 开发。 Thomson ResearchSoft是以学术信息市场化和开发学术软件为宗旨的子公司。
+  >
+  > 使用：[干货-endnote实用攻略 - 知乎](<https://zhuanlan.zhihu.com/p/21751596>)  |  [论文文献整理Endnote 软件使用简介  - YouTube](<https://www.youtube.com/watch?reload=9&v=TZoJxYg2gjw>)  |  …
 
 - 其他文献管理类软件：[文献引用管理工具 Mendeley 简明教程](<https://blog.wildcat.io/2017/12/a-simple-tutorial-about-mendely/>)  |  …
 

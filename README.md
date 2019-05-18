@@ -96,7 +96,7 @@
 
 :stars: 如何找论文：[如何找论文 - 知乎](https://zhuanlan.zhihu.com/p/27484748)
 
-- [Google 学术搜索](https://scholar.google.com.hk/?hl=zh-CN)
+- [Google 学术搜索](https://scholar.google.com.hk/?hl=zh-CN)  |  [牛顿网 - 谷歌学术搜索镜像](<http://www.ndtsg.com/>)  |  [gfsoso 学术搜索](<https://c.glgoo.top/scholar/>)  |  [谷歌学术镜像](<http://ac.scmor.com/>)
 
 - [百度学术](http://xueshu.baidu.com/)
 

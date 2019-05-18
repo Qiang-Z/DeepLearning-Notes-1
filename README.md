@@ -79,15 +79,16 @@
   >
   > 如何分享引用研究资源、插入文献、坚果云同步文献：[科研工作者的神器-zotero论文管理工具](https://mp.weixin.qq.com/s/rUv0d05xJgMxm2YoefWH5A)（我使用的该方式）  |  [标准论文参考文献添加方法——Zotero入门使用教程](https://blog.csdn.net/misayaaaaa/article/details/53559689)  | [如何在Zotero中设置webdav连接到坚果云？](http://help.jianguoyun.com/?p=3168)
   >
-  > - 注：插入文献时候，如果需删除「域」，碰到直接删除卡顿，可以先「解除域」再删除，这样会很快。接触域的快捷键为 `Ctrl＋Shift＋F9`。参考：[怎样全部去掉word中的域_百度知道](https://zhidao.baidu.com/question/166021389.html)。如果文件已进行了保存，想要还原域是没办法了，否则可以通过撤销上一步操作还原。
+  > - 注：插入文献时候，如果需删除「域」，若直接删除要是卡顿，可以先「解除域」再删除，这样会很快。解除域的快捷键为 `Ctrl＋Shift＋F9`。参考：[怎样全部去掉word中的域_百度知道](https://zhidao.baidu.com/question/166021389.html)。如果文件已进行了保存，想要还原域是没办法了，否则可以通过撤销上一步操作还原。
   >
   > 详细的：[Zotero（1）：文献管理软件Zotero基础及进阶示范 - 阳志平的网志](https://www.yangzhiping.com/tech/zotero1.html)
+  >
 
 - Endnote
 
   > 下载：[文献管理软件 EndNote X9.1 中科大批量授权版(中文一键直装破解)](<https://www.jb51.net/softs/637860.html>)
   >
-  > Endnote由Thomson Corporation下属的Thomson ResearchSoft 开发。 Thomson ResearchSoft是以学术信息市场化和开发学术软件为宗旨的子公司。
+  > Endnote 由 Thomson Corporation 下属的 Thomson ResearchSoft 开发。 Thomson ResearchSoft 是以学术信息市场化和开发学术软件为宗旨的子公司。
   >
   > 使用：[干货-endnote实用攻略 - 知乎](<https://zhuanlan.zhihu.com/p/21751596>)  |  [论文文献整理Endnote 软件使用简介  - YouTube](<https://www.youtube.com/watch?reload=9&v=TZoJxYg2gjw>)  |  …
 
@@ -103,9 +104,9 @@
 
 - [谷粉学术](https://gfsoso.99lb.net/)
 
-- [Sci-Hub](https://sci-hub.tw/)
+- [Sci-hub.tw](https://sci-hub.tw/)  |  [sci-hub.shop](<https://www.sci-hub.shop/>)  |  
 
-  > 只要你有论文的 URL 或者 DOI（Digital Object Identifier）就可以粘贴到搜索框里，点击“Open”就会出现你想要的论文啦。是不是so easy，妈妈再也不用担心我下载不了论文了！
+  > 只要你有论文的 URL 或者 DOI（Digital Object Identifier）就可以粘贴到搜索框里，点击“Open”就会出现你想要的论文啦。是不是 so easy，妈妈再也不用担心我下载不了论文了！
   >
   > *注：什么是 DOI，请看 [学术干货丨DOI是什么？怎样利用DOI快速检索文献？ – 材料牛](http://www.cailiaoniu.com/37930.html)*
 
@@ -737,7 +738,7 @@ GAN：一种概率生成模型。简单说， **概率生成模型的目的，�
 >
 > 中国计算机学会推荐国际学术会议和期刊目录：<https://www.ccf.org.cn/xspj/gyml/>
 
-更多的了解：[对期刊和会议的认识.md](./journals/对期刊和会议的认识.md)
+更多：[对期刊和会议的认识.md](./journals/对期刊和会议的认识.md)  |  [参考文献格式解释.md](./journals/参考文献格式解释.md)
 
 计算机视觉方向（CV）三大顶级会议：
 
